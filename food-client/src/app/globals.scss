@@ -1,0 +1,32 @@
+ .horizon{
+width: 440px;
+height: 2px; }
+
+.horizontal {
+    width: 300px;
+    height: 3px;
+    color: gray;
+}
+
+
+body {
+    width: 100vw;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+text-decoration: none;
+color: inherit
+}
+//mixing duudahdaa @include ene ni buleg codiig hiideg
+//huvisagch uusgehdee $primary-color: "";
+// @import hiihded _ bichihgiogeer bichne
+//& odoo bga element zaaj bga 
+//component named export hiih  export * from "./"
+// interface eeer objectii torol zaana
+// interface bichij bga bol I urd ni tavina
+// nernd orulahgui bol folderiiin neree () hiij bolno
+//
