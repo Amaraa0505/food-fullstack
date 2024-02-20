@@ -8,7 +8,7 @@ import MyError from "../utils/myError";
 export const signup = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction  
 ) => {
   console.log("Signup");
   try {
@@ -32,7 +32,7 @@ export const signup = async (
   } catch (error) {
     res
       .status(400)
-      .json({ message: "Шинэ хэрэглэгч бүртгэх үед алдаа гарлаа.", error });
+      .json({ message: "Шинэ хэрэглэгч бүртгэх үед алдаа гарлаа.", error }); 
   }
 };
 
@@ -42,23 +42,25 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
+    console.log("LOGIN", req.body);
     const { userEmail, userPassword } = req.body;
     console.log("LOGIN", userEmail);
+    console.log("Password", userPassword)
 
     const user = await User.findOne({ email: userEmail })
       .select("+password")
-      .lean();
-
+   
     if (!user) {
       throw new MyError(`${userEmail}-тэй хэрэглэгч бүртгэлгүй байна.`, 400);
     }
-
+    console.log("success",user)
     const isValid = await bcrypt.compare(userPassword, user.password);
-
+    console.log("bcrypted",isValid)
     if (!isValid) {
+      console.log("error")
       throw new MyError(`Имэйл эсвэл нууц үг буруу байна.`, 400);
     }
-
+    console.log("nevterlee")
     const token = jwt.sign(
       {
         id: user._id,
@@ -74,6 +76,8 @@ export const login = async (
       token,
       user: otherParams,
     });
+
+
   } catch (error) {
     next(error);
   }

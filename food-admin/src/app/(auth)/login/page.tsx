@@ -1,5 +1,5 @@
 "use client";
-
+// import {Response, Request, NextFunction} from "express";
 import { ChangeEvent, useState } from "react";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
@@ -29,25 +29,29 @@ export default function LoginView() {
 
   const router = useRouter();
 
-  const [userEmail, setUserEmail] = useState("ugtakhbayars@gmail.com");
-  const [userPassword, setUserPassword] = useState("admin12345");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = async () => {
-    const {
-      data: { user, token },
-    } = (await axios.post("http://localhost:8080/auth/login", {
-      userEmail,
-      userPassword,
-    })) as {
-      data: { token: string; user: any };
-    };
-
-    console.log(token, user);
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
-    router.push("/dashboard");
+    try {
+      console.log("DATA",  userEmail,
+      userPassword,);
+      const {
+        data: { user, token },
+      } = (await axios.post("http://localhost:8080/auth/login", {
+        userEmail,
+        userPassword,
+      })) as { 
+        data: { token: string; user: any };
+      }
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      router.push("/dashboard");
+    } catch (error) {
+      console.log(error ,"ERR")
+    }
   };
 
   const renderForm = (

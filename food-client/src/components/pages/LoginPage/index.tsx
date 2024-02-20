@@ -35,10 +35,10 @@ const LoginPage = () => {
       // login(email, password);
       try {
         const { data } = await axios.post("http://localhost:8080/auth/login", {
-          email: email,
-          password: password,
+          userEmail: email,
+          userPassword: password,
         });
-        console.log("nevterlee");
+        console.log("nevterlee",data);
       } catch (error) {
         console.log(error);
       }
