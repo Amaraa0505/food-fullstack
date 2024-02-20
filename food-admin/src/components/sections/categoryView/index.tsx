@@ -71,20 +71,15 @@ export default function CategoryView() {
   const createCategory = async () => {
     try {
       const formData = new FormData();
-      formData.set("image", file!);
+      formData.set("image", file!); 
       formData.set("name", newCategory.name);
       formData.set("description", newCategory.description);
       const token = localStorage.getItem("token");
-      const {
-        data: { category },
-      } = (await axios.post("http://localhost:8080/categories", formData, {
+     await axios.post("http://localhost:8080/categories", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })) as {
-        data: { category: object };
-      };
-
+      })
       // setCategories(categories);
       console.log("Success Add Category");
     } catch (error: any) {

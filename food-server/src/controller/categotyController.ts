@@ -73,11 +73,11 @@ export const updateCategory = async (
 ) => {
   try {
     const { categoryId } = req.params;
-    const updateCategory = req.body;
+    // const updateCategory = req.body;
 
     const category = await Category.findByIdAndUpdate(
       categoryId,
-      updateCategory
+      // updateCategory
     );
 
     if (!category) {
