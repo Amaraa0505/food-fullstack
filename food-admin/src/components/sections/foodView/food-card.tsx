@@ -3,6 +3,7 @@ import Link from "@mui/material/Link";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import MySelect from "@/components/core/myselect";
 
 import { fCurrency } from "@/utils/format-number";
 
@@ -11,7 +12,7 @@ import { ColorPreview } from "@/components/color-utils";
 
 // ----------------------------------------------------------------------
 
-export default function FoodCard({ product }: any) {
+export default function FoodCard({ product, options }: any) {
   const renderStatus = (
     <Label
       variant="filled"
@@ -31,7 +32,7 @@ export default function FoodCard({ product }: any) {
   const renderImg = (
     <Box
       component="img"
-      alt={product.name}
+      alt={options.name}
       src={product.cover}
       sx={{
         top: 0,
@@ -53,10 +54,10 @@ export default function FoodCard({ product }: any) {
           textDecoration: "line-through",
         }}
       >
-        {product.priceSale && fCurrency(product.priceSale)}
+        {options.priceSale && fCurrency(options.priceSale)}
       </Typography>
       &nbsp;
-      {fCurrency(product.price)}
+      {fCurrency(options.price)}
     </Typography>
   );
 
@@ -69,7 +70,7 @@ export default function FoodCard({ product }: any) {
       }}
     >
       <Box sx={{ pt: "100%", position: "relative" }}>
-        {product.status && renderStatus}
+        {options.status && renderStatus}
 
         {renderImg}
       </Box>
@@ -84,9 +85,10 @@ export default function FoodCard({ product }: any) {
           alignItems="center"
           justifyContent="space-between"
         >
-          <ColorPreview colors={product.colors} />
+          <ColorPreview colors={options.colors} />
           {renderPrice}
         </Stack>
+    
       </Stack>
     </Card>
   );

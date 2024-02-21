@@ -75,6 +75,7 @@ export default function FoodModal({ handleClose, open, handleChangeFood, handleS
           </Stack>
 
           <Input label="Name" desc="Хоолны нэрийг оруулна уу" name="name" onChange={handleChangeFood}/>
+         
           <Input label="Price" desc="Үнийн дүнг оруулна уу" name="price" onChange={handleChangeFood}/>
           <Input label="Description" desc="Write food Description" name="description" onChange={handleChangeFood}/>
           <Stack>
@@ -89,13 +90,13 @@ export default function FoodModal({ handleClose, open, handleChangeFood, handleS
           <Stack>
             <FormControl sx={{ m: 1, minWidth: 120 }} required>
               <InputLabel id="demo-simple-select-disabled-label">
-                Катигори
+                food
               </InputLabel>
               <Select
                 labelId="demo-simple-select-disabled-label"
                 id="demo-simple-select-disabled"
                 value={age}
-                label="Катигори"
+                label="food"
                 onChange={handleChange}
               >
                 <MenuItem value="">

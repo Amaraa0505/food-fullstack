@@ -53,6 +53,7 @@ export default function CategoryView() {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.currentTarget.files![0]);
+    console.log(file)
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +75,7 @@ export default function CategoryView() {
       formData.set("image", file!); 
       formData.set("name", newCategory.name);
       formData.set("description", newCategory.description);
+     
       const token = localStorage.getItem("token");
      await axios.post("http://localhost:8080/categories", formData, {
         headers: {

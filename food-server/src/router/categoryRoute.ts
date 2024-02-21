@@ -5,7 +5,7 @@ import {
   getAllCategory,
   getCategory,
   updateCategory,
-} from "../controller/categotyController";
+} from "../controller/categoryController";
 import { upload } from "../utils/multer";
 import { authenticate, authorize } from "../middleware/auth";
 

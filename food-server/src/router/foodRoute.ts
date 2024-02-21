@@ -7,10 +7,10 @@ import {
   getAllFood,
 } from "../controller/foodController";
 
-const categoryRoute = Router();
+const foodRoute = Router();
 
-categoryRoute.route("/:foodId").get(getFood).put(updateFood).delete(deleteFood);
+foodRoute.route("/:foodId").get(getFood).put(updateFood).delete(deleteFood);
 
-categoryRoute.route("/").get(getAllFood).post(createFood);
+foodRoute.route("/").get(getAllFood).post(createFood);
 
-export default categoryRoute;
+export default foodRoute;

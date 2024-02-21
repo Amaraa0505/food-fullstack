@@ -99,7 +99,7 @@ export default function FoodView() {
     name: "",
     description: "",
     price:"",
-    discountPrice:""
+    discount:""
   });
 
   const handleChangeFood = (e: ChangeEvent<HTMLInputElement>) => {
@@ -116,14 +116,22 @@ export default function FoodView() {
       formData.set("image", file!); 
       formData.set("name", newFood.name);
       formData.set("description", newFood.description);
+      formData.set("price", newFood.price);
+      formData.set("discountPrice", newFood.discount)
+      console.log("neww", newFood )
+
       const token = localStorage.getItem("token");
+
      await axios.post("http://localhost:8080/food", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
+
+      console.log("newFood:", newFood)
       setFoods(foods);
-      console.log("Success Add Category");
+      
+      console.log("Success Add Food");
     } catch (error: any) {
       alert("Add Error - " + error.message);
     }
@@ -146,7 +154,6 @@ export default function FoodView() {
   useEffect(() => {
     getFood();
   }, []);
-
 
 
   return (
