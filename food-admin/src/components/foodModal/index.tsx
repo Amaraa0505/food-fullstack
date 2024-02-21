@@ -22,6 +22,8 @@ import Image from "next/image";
 import { Remove, Add, Close } from "@mui/icons-material";
 import { Button, Input } from "../core";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import MySelect from "../core/myselect";
+import axios from "axios";
 
 const style = {
   position: "absolute" as "absolute",
@@ -48,15 +50,32 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function FoodModal({ handleClose, open, handleChangeFood, handleSave, handleFileChange }: any) {
+export default function FoodModal({ handleClose, open, handleChangeFood, handleSave, handleFileChange , setSelectedValue,selectedValue}: any) {
   const [age, setAge] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
   };
 
+const [categories, setCategories] = React.useState([])
 
+  const getCategory = async () => {
+    try {
+      const {
+        data: { categories },
+      } = (await axios.get("http://localhost:8080/categories")) as {
+        data: { categories: [] };
+      };
 
+      setCategories(categories);
+    } catch (error: any) {
+      alert("Get Error - " + error.message);
+    }
+  };
+
+  React.useEffect(() => {
+    getCategory();
+  }, []);
 
   return (
     <div>
@@ -89,23 +108,7 @@ export default function FoodModal({ handleClose, open, handleChangeFood, handleS
           </Stack>
           <Stack>
             <FormControl sx={{ m: 1, minWidth: 120 }} required>
-              <InputLabel id="demo-simple-select-disabled-label">
-                food
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-disabled-label"
-                id="demo-simple-select-disabled"
-                value={age}
-                label="food"
-                onChange={handleChange}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
+              <MySelect label="" options={categories} selectedValue={selectedValue} setSelectedValue={setSelectedValue}/>
               <FormHelperText>Required</FormHelperText>
             </FormControl>
           </Stack>

@@ -32,7 +32,7 @@ export default function FoodCard({ product, options }: any) {
   const renderImg = (
     <Box
       component="img"
-      alt={options.name}
+      alt={product.name}
       src={product.cover}
       sx={{
         top: 0,
@@ -54,10 +54,10 @@ export default function FoodCard({ product, options }: any) {
           textDecoration: "line-through",
         }}
       >
-        {options.priceSale && fCurrency(options.priceSale)}
+        {product.priceSale && fCurrency(product.priceSale)}
       </Typography>
       &nbsp;
-      {fCurrency(options.price)}
+      {fCurrency(product.price)}
     </Typography>
   );
 
@@ -70,7 +70,7 @@ export default function FoodCard({ product, options }: any) {
       }}
     >
       <Box sx={{ pt: "100%", position: "relative" }}>
-        {options.status && renderStatus}
+        {product.status && renderStatus}
 
         {renderImg}
       </Box>
@@ -79,13 +79,12 @@ export default function FoodCard({ product, options }: any) {
         <Link color="inherit" underline="hover" variant="subtitle2" noWrap>
           {product.name}
         </Link>
-
         <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"
         >
-          <ColorPreview colors={options.colors} />
+          <ColorPreview colors={product.colors} />
           {renderPrice}
         </Stack>
     

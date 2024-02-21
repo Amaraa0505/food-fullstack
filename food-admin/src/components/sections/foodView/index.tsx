@@ -109,7 +109,8 @@ export default function FoodView() {
   };
   const [foods, setFoods] = useState([]);
   const [file, setFile] = useState<File | null>(null);
-  
+  const [selectedValue,setSelectedValue] = useState("")
+
   const createFood = async () => {
     try {
       const formData = new FormData();
@@ -204,7 +205,7 @@ export default function FoodView() {
       </Grid>
 
       {/* <ProductCartWidget /> */}
-      <FoodModal open={open} handleFileChange={handleFileChange} handleClose={handleClose} openFilter={openFilter} handleChangeFood={handleChangeFood} handleSave={createFood}/>
+      <FoodModal open={open} selectedValue={selectedValue} setSelectedValue={setSelectedValue} handleFileChange={handleFileChange} handleClose={handleClose} openFilter={openFilter} handleChangeFood={handleChangeFood} handleSave={createFood}/>
       
     </Container>
   );

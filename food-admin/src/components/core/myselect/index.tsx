@@ -26,6 +26,7 @@ const MySelect: React.FC<MySelectProps> = ({
 }) => {
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSelectedValue(event.target.value);
+    console.log(selectedValue,"aaaa")
   };
  
   return (
