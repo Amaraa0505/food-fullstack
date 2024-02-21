@@ -9,11 +9,15 @@ export const createFood = async (
 ) => {
   try {
     const newFood = req.body;
-    await Food.create({ newFood });
+    console.log("BODY", req.body)
+    console.log("NNNNE", newFood)
+    await Food.create( newFood );
+    
     res.status(201).json({ message: "category uuslee" });
   } catch (error) {
     next(error);
   }
+
 };
 
 export const getFood = async (

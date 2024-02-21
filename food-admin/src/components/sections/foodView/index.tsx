@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
+import FoodModal from "@/components/foodModal";
+import { ChangeEvent } from 'react';
 
 import FoodCard from "./food-card";
 import FoodSort from "./food-sort";
@@ -43,6 +45,9 @@ const FOOD_COLOR = [
 
 // ----------------------------------------------------------------------
 
+
+
+
 export const products = [...Array(FOOD_NAME.length)].map((_, index) => {
   const setIndex = index + 1;
 
@@ -70,6 +75,8 @@ export default function FoodView() {
   const [openFilter, setOpenFilter] = useState(false);
   const [open, setOpen] = useState(false);
 
+
+  
   const handleOpenFilter = () => {
     setOpenFilter(() => true);
   };
@@ -84,6 +91,63 @@ export default function FoodView() {
   const handleClose = () => {
     setOpen(() => false);
   };
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFile(e.currentTarget.files![0]);
+  };
+
+  const [newFood, setNewFood] = useState({
+    name: "",
+    description: "",
+    price:"",
+    discountPrice:""
+  });
+
+  const handleChangeFood = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setNewFood({ ...newFood, [name]: value });
+  };
+  const [foods, setFoods] = useState([]);
+  const [file, setFile] = useState<File | null>(null);
+  
+  const createFood = async () => {
+    try {
+      const formData = new FormData();
+      formData.set("image", file!); 
+      formData.set("name", newFood.name);
+      formData.set("description", newFood.description);
+      const token = localStorage.getItem("token");
+     await axios.post("http://localhost:8080/food", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      setFoods(foods);
+      console.log("Success Add Category");
+    } catch (error: any) {
+      alert("Add Error - " + error.message);
+    }
+  };
+  
+  const getFood = async () => {
+    try {
+      const {
+        data: { foods },
+      } = (await axios.get("http://localhost:8080/food")) as {
+        data: { foods: [] };
+      };
+  
+      setFoods(foods);
+    } catch (error: any) {
+      alert("Get Error - " + error.message);
+    }
+  };
+  
+  useEffect(() => {
+    getFood();
+  }, []);
+
+
 
   return (
     <Container>
@@ -133,6 +197,8 @@ export default function FoodView() {
       </Grid>
 
       {/* <ProductCartWidget /> */}
+      <FoodModal open={open} handleFileChange={handleFileChange} handleClose={handleClose} openFilter={openFilter} handleChangeFood={handleChangeFood} handleSave={createFood}/>
+      
     </Container>
   );
 }

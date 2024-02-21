@@ -1,3 +1,4 @@
+'use client'
 import * as React from "react";
 import {
   Box,
@@ -47,16 +48,20 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function FoodModal({ handleClose, openFilter }: any) {
+export default function FoodModal({ handleClose, open, handleChangeFood, handleSave, handleFileChange }: any) {
   const [age, setAge] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
   };
+
+
+
+
   return (
     <div>
       <Modal
-        open={openFilter}
+        open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -69,11 +74,11 @@ export default function FoodModal({ handleClose, openFilter }: any) {
             </MuiButton>
           </Stack>
 
-          <Input label="Name" desc="Хоолны нэрийг оруулна уу" />
-          <Input label="Price" desc="Үнийн дүнг оруулна уу" />
-          <Input label="Description" desc="Write food Description" />
+          <Input label="Name" desc="Хоолны нэрийг оруулна уу" name="name" onChange={handleChangeFood}/>
+          <Input label="Price" desc="Үнийн дүнг оруулна уу" name="price" onChange={handleChangeFood}/>
+          <Input label="Description" desc="Write food Description" name="description" onChange={handleChangeFood}/>
           <Stack>
-            <Input label="Discount" desc="Хямдралын хувийг оруулна уу" />
+            <Input label="Discount" desc="Хямдралын хувийг оруулна уу" name="discount" onChange={handleChangeFood}/>
             <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
               <FormControlLabel
                 control={<Checkbox defaultChecked />}
@@ -109,9 +114,9 @@ export default function FoodModal({ handleClose, openFilter }: any) {
             startIcon={<CloudUploadIcon />}
           >
             Upload file
-            <VisuallyHiddenInput type="file" />
+            <VisuallyHiddenInput type="file" onChange={handleFileChange}/>
           </MuiButton>
-          <Button label="нэмэх"></Button>
+          <Button label="нэмэх" onClick={handleSave}></Button>
         </Box>
       </Modal>
     </div>
