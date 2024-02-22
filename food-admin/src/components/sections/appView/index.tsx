@@ -25,7 +25,7 @@ import { redirect } from "next/navigation";
 export default function AppView() {
 
   const [user, setUser] = useState(
-    // JSON.parse(localStorage.getItem("user") || "")
+    JSON.parse(localStorage.getItem("user") || "")
   );
 
   if (!user) {
