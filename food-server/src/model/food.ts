@@ -1,9 +1,9 @@
-import { Schema, Types, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const foodSchema = new Schema({
   name: {
     type: String,
-    require: [true, "Хоолны нэрийг заавал оруулна."],
+    required: [true, "Хоолны нэрийг заавал оруулна."],
     unique: true,
     maxlength: [50, "Хоолны нэрний урт 50 тэмдэгтээс хэтрэхгүй байна."],
   },
@@ -30,7 +30,7 @@ const foodSchema = new Schema({
   category: {
     type: Schema.ObjectId,
     ref: "Category",
-    require: true,
+    required: true,
   },
   createdAt: {
     type: Date,

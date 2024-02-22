@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import * as React from "react";
 import {
   Box,
@@ -50,14 +50,22 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function FoodModal({ handleClose, open, handleChangeFood, handleSave, handleFileChange , setSelectedValue,selectedValue}: any) {
+export default function FoodModal({
+  handleClose,
+  open,
+  handleChangeFood,
+  handleSave,
+  handleFileChange,
+  setSelectedValue,
+  selectedValue,
+}: any) {
   const [age, setAge] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
   };
 
-const [categories, setCategories] = React.useState([])
+  const [categories, setCategories] = React.useState([]);
 
   const getCategory = async () => {
     try {
@@ -93,12 +101,32 @@ const [categories, setCategories] = React.useState([])
             </MuiButton>
           </Stack>
 
-          <Input label="Name" desc="Хоолны нэрийг оруулна уу" name="name" onChange={handleChangeFood}/>
-         
-          <Input label="Price" desc="Үнийн дүнг оруулна уу" name="price" onChange={handleChangeFood}/>
-          <Input label="Description" desc="Write food Description" name="description" onChange={handleChangeFood}/>
+          <Input
+            label="Name"
+            desc="Хоолны нэрийг оруулна уу"
+            name="name"
+            onChange={handleChangeFood}
+          />
+
+          <Input
+            label="Price"
+            desc="Үнийн дүнг оруулна уу"
+            name="price"
+            onChange={handleChangeFood}
+          />
+          <Input
+            label="Description"
+            desc="Write food Description"
+            name="description"
+            onChange={handleChangeFood}
+          />
           <Stack>
-            <Input label="Discount" desc="Хямдралын хувийг оруулна уу" name="discount" onChange={handleChangeFood}/>
+            <Input
+              label="Discount"
+              desc="Хямдралын хувийг оруулна уу"
+              name="discount"
+              onChange={handleChangeFood}
+            />
             <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
               <FormControlLabel
                 control={<Checkbox defaultChecked />}
@@ -108,7 +136,20 @@ const [categories, setCategories] = React.useState([])
           </Stack>
           <Stack>
             <FormControl sx={{ m: 1, minWidth: 120 }} required>
-              <MySelect label="" options={categories} selectedValue={selectedValue} setSelectedValue={setSelectedValue}/>
+              <FormControl fullWidth>
+                <InputLabel>category</InputLabel>
+                <Select
+                  value={selectedValue}
+                  name="category"
+                  onChange={handleChangeFood}
+                >
+                  {categories.map((option: any) => (
+                    <MenuItem key={option._id} value={option._id}>
+                      {option?.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <FormHelperText>Required</FormHelperText>
             </FormControl>
           </Stack>
@@ -118,7 +159,7 @@ const [categories, setCategories] = React.useState([])
             startIcon={<CloudUploadIcon />}
           >
             Upload file
-            <VisuallyHiddenInput type="file" onChange={handleFileChange}/>
+            <VisuallyHiddenInput type="file" onChange={handleFileChange} />
           </MuiButton>
           <Button label="нэмэх" onClick={handleSave}></Button>
         </Box>

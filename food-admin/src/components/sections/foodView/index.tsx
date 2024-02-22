@@ -7,7 +7,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 import FoodModal from "@/components/foodModal";
-import { ChangeEvent } from 'react';
+import { ChangeEvent } from "react";
 
 import FoodCard from "./food-card";
 import FoodSort from "./food-sort";
@@ -45,9 +45,6 @@ const FOOD_COLOR = [
 
 // ----------------------------------------------------------------------
 
-
-
-
 export const products = [...Array(FOOD_NAME.length)].map((_, index) => {
   const setIndex = index + 1;
 
@@ -75,8 +72,6 @@ export default function FoodView() {
   const [openFilter, setOpenFilter] = useState(false);
   const [open, setOpen] = useState(false);
 
-
-  
   const handleOpenFilter = () => {
     setOpenFilter(() => true);
   };
@@ -98,64 +93,67 @@ export default function FoodView() {
   const [newFood, setNewFood] = useState({
     name: "",
     description: "",
-    price:"",
-    discount:""
+    price: "",
+    discount: "",
+    category: "",
   });
 
   const handleChangeFood = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setNewFood({ ...newFood, [name]: value });
+    console.log("DATA++", newFood);
   };
+
   const [foods, setFoods] = useState([]);
   const [file, setFile] = useState<File | null>(null);
-  const [selectedValue,setSelectedValue] = useState("")
+  const [selectedValue, setSelectedValue] = useState("");
 
   const createFood = async () => {
     try {
       const formData = new FormData();
-      formData.set("image", file!); 
+      formData.set("image", file!);
       formData.set("name", newFood.name);
       formData.set("description", newFood.description);
       formData.set("price", newFood.price);
-      formData.set("discountPrice", newFood.discount)
-      console.log("neww", newFood )
+      formData.set("discountPrice", newFood.discount);
+      formData.set("category", newFood.category);
+      console.log("neww", newFood);
 
       const token = localStorage.getItem("token");
 
-     await axios.post("http://localhost:8080/food", formData, {
+      await axios.post("http://localhost:8080/food", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
+      });
 
-      console.log("newFood:", newFood)
+      console.log("newFood:", newFood);
       setFoods(foods);
-      
+
       console.log("Success Add Food");
     } catch (error: any) {
       alert("Add Error - " + error.message);
     }
   };
-  
-  const getFood = async () => {
+
+  const getFoods = async () => {
     try {
       const {
         data: { foods },
       } = (await axios.get("http://localhost:8080/food")) as {
         data: { foods: [] };
       };
-  
+
       setFoods(foods);
     } catch (error: any) {
       alert("Get Error - " + error.message);
     }
   };
-  
-  useEffect(() => {
-    getFood();
-  }, []);
 
+  useEffect(() => {
+    getFoods();
+  }, []);
 
   return (
     <Container>
@@ -205,8 +203,16 @@ export default function FoodView() {
       </Grid>
 
       {/* <ProductCartWidget /> */}
-      <FoodModal open={open} selectedValue={selectedValue} setSelectedValue={setSelectedValue} handleFileChange={handleFileChange} handleClose={handleClose} openFilter={openFilter} handleChangeFood={handleChangeFood} handleSave={createFood}/>
-      
+      <FoodModal
+        open={open}
+        selectedValue={selectedValue}
+        setSelectedValue={setSelectedValue}
+        handleFileChange={handleFileChange}
+        handleClose={handleClose}
+        openFilter={openFilter}
+        handleChangeFood={handleChangeFood}
+        handleSave={createFood}
+      />
     </Container>
   );
 }

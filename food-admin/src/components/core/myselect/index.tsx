@@ -16,6 +16,7 @@ interface MySelectProps {
   }[];
   selectedValue: string;
   setSelectedValue: () => void;
+  handleChangeFood:()=>void
 }
  
 const MySelect: React.FC<MySelectProps> = ({
@@ -23,23 +24,12 @@ const MySelect: React.FC<MySelectProps> = ({
   options,
   selectedValue,
   setSelectedValue,
+  handleChangeFood
 }) => {
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    setSelectedValue(event.target.value);
-    console.log(selectedValue,"aaaa")
-  };
+
  
   return (
-    <FormControl fullWidth>
-      <InputLabel>{label}</InputLabel>
-      <Select value={selectedValue} onChange={handleChange}>
-        {options.map((option) => (
-          <MenuItem key={option._id} value={option._id}>
-            {option.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    
   );
 };
  

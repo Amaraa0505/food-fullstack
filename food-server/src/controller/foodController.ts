@@ -9,14 +9,13 @@ export const createFood = async (
 ) => {
   try {
     const newFood = req.body;
-    console.log("REQ BODY: ", newFood)
-    await Food.create( newFood );
-    console.log(newFood)
+    console.log("REQ BODY: ", req.body);
+    await Food.create(newFood);
+    console.log("++++", newFood);
     res.status(201).json({ message: "food uuslee" });
   } catch (error) {
     next(error);
   }
-
 };
 
 export const getFood = async (
@@ -44,10 +43,9 @@ export const getAllFood = async (
   next: NextFunction
 ) => {
   try {
-    const { foodId } = req.params;
-    const food = await Food.find().populate("category", "_id name");
+    const food = await Food.find().populate("Category", "name");
 
-    res.status(200).json({ message: `buh hool oldloo`, Food });
+    res.status(200).json({ message: `buh hool oldloo`, food });
   } catch (error) {
     next(error);
   }
