@@ -25,7 +25,7 @@ import { redirect } from "next/navigation";
 export default function AppView() {
 
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user") || "")
+    // JSON.parse(localStorage.getItem("user") || "")
   );
 
   if (!user) {
@@ -35,7 +35,7 @@ export default function AppView() {
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Сайн уу, Тавтай морил - {user.name}
+        {/* Сайн уу, Тавтай морил - {user.name} */}
       </Typography>
 
       <Grid container spacing={3}>
