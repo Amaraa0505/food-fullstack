@@ -8,9 +8,12 @@ export const uploadFile = async (
 ) => {
   console.log("file", req.file);
   try {
-    const result = await cloudinary.uploader.upload(req.file?.path as string);
+    console.log("FILEЖЖ", req.file);
+    //multer front endess ywuulsan fileiig barij awaad bidnii zaaj ugsun fileruu hiigeed bidnii req file ruu medeeluudiig ywuuldag dotor hiij ugdug
 
-    res.send("ok==" + result.secure_url); ///path harah link
+    const result = await cloudinary.uploader.upload(req.file?.path!);
+    res.send("ok===>" + result.secure_url);
+    console.log("RESULT", result);
   } catch (error) {
     next(error);
   }

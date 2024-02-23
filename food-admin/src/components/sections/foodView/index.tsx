@@ -88,8 +88,10 @@ export default function FoodView() {
   };
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.currentTarget.files![0]);
+    console.log("------", handleFileChange)
   };
 
+  
   const [newFood, setNewFood] = useState({
     name: "",
     description: "",
@@ -137,22 +139,22 @@ export default function FoodView() {
     }
   };
 
-  const getFoods = async () => {
+  const getFood = async () => {
     try {
       const {
         data: { foods },
-      } = (await axios.get("http://localhost:8080/food")) as {
+      } = (await axios.get("http://localhost:8080/foods")) as {
         data: { foods: [] };
       };
-
+      console.log("GEtDataFoods", foods);
       setFoods(foods);
     } catch (error: any) {
-      alert("Get Error - " + error.message);
+      alert("error" + error.message);
     }
   };
 
   useEffect(() => {
-    getFoods();
+    getFood();
   }, []);
 
   return (
@@ -195,9 +197,10 @@ export default function FoodView() {
       </Stack>
 
       <Grid container spacing={3}>
-        {products.map((product: any) => (
-          <Grid key={product.id} xs={12} sm={6} md={3}>
-            <FoodCard product={product} />
+        {foods.map((food: any) => (
+          <Grid xs={12} sm={6} md={3}>
+            <FoodCard key={food._id} food={food} />
+          
           </Grid>
         ))}
       </Grid>

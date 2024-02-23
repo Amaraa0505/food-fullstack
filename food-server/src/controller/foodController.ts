@@ -1,22 +1,27 @@
 import { Request, Response, NextFunction } from "express";
 import Food from "../model/food";
 import MyError from "../utils/myError";
+import cloudinary from "../utils/cloudinary"
 
-export const createFood = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const newFood = req.body;
-    console.log("REQ BODY: ", req.body);
-    await Food.create(newFood);
-    console.log("++++", newFood);
-    res.status(201).json({ message: "food uuslee" });
-  } catch (error) {
-    next(error);
-  }
-};
+
+  export const createFood = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      console.log("FoodDtaa", req.body);
+      const newFood = req.body
+      if (req.file) {
+        const { secure_url } = await cloudinary.uploader.upload(req.file.path);
+        newFood.image = secure_url;
+      }
+      await Food.create(newFood);
+      res.status(201).json({ message: "Food succesfully created." }); //created status code 201
+    } catch (error) {
+      next(error);
+    }
+  };
 
 export const getFood = async (
   req: Request,
@@ -43,14 +48,12 @@ export const getAllFood = async (
   next: NextFunction
 ) => {
   try {
-    const food = await Food.find().populate("Category", "name");
-
-    res.status(200).json({ message: `buh hool oldloo`, food });
+    const foods = await Food.find().populate("category", "_id, name");
+    res.status(200).json({ message: `Бүх foods олдлоо`, foods });
   } catch (error) {
     next(error);
   }
 };
-
 export const updateFood = async (
   req: Request,
   res: Response,
@@ -87,3 +90,6 @@ export const deleteFood = async (
     next(error);
   }
 };
+
+
+
