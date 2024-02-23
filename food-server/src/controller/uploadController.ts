@@ -6,13 +6,12 @@ export const uploadFile = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("file", req.file);
   try {
-    console.log("FILEЖЖ", req.file);
+    console.log("UPLOAD FILE REQ: ", req.file);
     //multer front endess ywuulsan fileiig barij awaad bidnii zaaj ugsun fileruu hiigeed bidnii req file ruu medeeluudiig ywuuldag dotor hiij ugdug
 
     const result = await cloudinary.uploader.upload(req.file?.path!);
-    res.send("ok===>" + result.secure_url);
+    res.send("image uploaded to cloudinary===>" + result.secure_url);
     console.log("RESULT", result);
   } catch (error) {
     next(error);

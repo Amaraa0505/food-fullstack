@@ -13,6 +13,6 @@ const foodRoute = Router();
 
 foodRoute.route("/:foodId").get(getFood).put(updateFood).delete(deleteFood);
 
-foodRoute.route("/").get(getAllFood).post(upload.single("image"), uploadFile);
+foodRoute.route("/").get(getAllFood).post(upload.single("image"), createFood);
 
 export default foodRoute;

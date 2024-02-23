@@ -11,7 +11,7 @@ import cloudinary from "../utils/cloudinary"
   ) => {
     try {
       console.log("FoodDtaa", req.body);
-      const newFood = req.body
+      const newFood = {...req.body}
       if (req.file) {
         const { secure_url } = await cloudinary.uploader.upload(req.file.path);
         newFood.image = secure_url;
@@ -23,37 +23,42 @@ import cloudinary from "../utils/cloudinary"
     }
   };
 
-export const getFood = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { foodId } = req.params;
-    const food = await Food.findById(foodId);
-
-    if (!food) {
-      throw new MyError(`${foodId}-tai hool oldsongui`, 400);
+  export const getFood = async ( 
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { foodId } = req.params;
+  
+      const findFood = await Food.findById(foodId);
+  
+      if (!findFood) {
+        throw new MyError(`${foodId}-тай food олдсонгүй.`, 400);
+      }
+      // const findCategory = Category.findOne({_id: categoryId})
+      res.status(200).json({ message: `${foodId}-тай food олдлоо` }); // status cose 200 success
+    } catch (error) {
+      next(error);
     }
+  };
 
-    res.status(200).json({ message: `${foodId}-hool oldloo`, food });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getAllFood = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const foods = await Food.find().populate("category", "_id, name");
-    res.status(200).json({ message: `Бүх foods олдлоо`, foods });
-  } catch (error) {
-    next(error);
-  }
-};
+  export const getAllFood = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const foods = await Food.find().populate("category")
+  
+      res.status(200).json({
+        message: `Бүх хоол.`,
+        foods,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 export const updateFood = async (
   req: Request,
   res: Response,

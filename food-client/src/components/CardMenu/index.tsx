@@ -1,91 +1,41 @@
 "use client";
 import React from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import FoodCard from "../FoodCard";
 
 const CardMenu = () => {
+
+const [foods, setFoods]=useState([])
+
+const getFood = async ()=>{
+  try {
+    const {
+      data: {foods},
+    }=(await axios.get("http://localhost:8080/food")) as {
+      data: {foods: []};
+    };
+    setFoods(foods);
+    console.log(foods)
+  } catch (error) {
+    console.log("ERR", error)
+  }
+}
+
+useEffect(() => {
+  getFood();
+}, []);
+
+
   return (
     <Box sx={{ padding: 7, display: "flex", flexDirection: "column", gap: 6 }}>
-      <Stack
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Grid sx={{ display: "flex", gap: 2 }}>
-          <img src="Star 1.svg" style={{ width: 20 }}></img>
-          <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
-            Хямдралтай
-          </Typography>
-        </Grid>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Typography color={"#18BA51"}>Бүгдийг харах </Typography>
-          <img src="arrow.svg" style={{ height: 15 }}></img>
-        </Box>
-      </Stack>
-      <Grid>
-        <img src="egg.svg" style={{ width: 200 }}></img>
-      </Grid>
-      <Stack
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Grid sx={{ display: "flex", gap: 2 }}>
-          <img src="Star 1.svg" style={{ width: 20 }}></img>
-          <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
-            Үндсэн хоол
-          </Typography>
-        </Grid>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Typography color={"#18BA51"}>Бүгдийг харах </Typography>
-          <img src="arrow.svg" style={{ height: 15 }}></img>
-        </Box>
-      </Stack>
-      <Grid>
-        <img src="egg.svg" style={{ width: 200 }}></img>
-      </Grid>
-      <Stack
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Grid sx={{ display: "flex", gap: 2 }}>
-          <img src="Star 1.svg" style={{ width: 20 }}></img>
-          <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
-            Салад ба зууш
-          </Typography>
-        </Grid>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Typography color={"#18BA51"}>Бүгдийг харах </Typography>
-          <img src="arrow.svg" style={{ height: 15 }}></img>
-        </Box>
-      </Stack>
-      <Grid>
-        <img src="egg.svg" style={{ width: 200 }}></img>
-      </Grid>
-      <Stack
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Grid sx={{ display: "flex", gap: 2 }}>
-          <img src="Star 1.svg" style={{ width: 20 }}></img>
-          <Typography sx={{ fontSize: 20, fontWeight: 600 }}>Амттан</Typography>
-        </Grid>
-        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-          <Typography color={"#18BA51"}>Бүгдийг харах </Typography>
-          <img src="arrow.svg" style={{ height: 15 }}></img>
-        </Box>
-      </Stack>
-      <Grid>
-        <img src="egg.svg" style={{ width: 200 }}></img>
+       <Grid container spacing={3}>
+        {foods.map((food: any) => (
+          <Grid xs={12} sm={6} md={3}>
+            <FoodCard key={food._id} food={food} />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

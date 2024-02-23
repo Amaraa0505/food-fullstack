@@ -142,7 +142,7 @@ export default function FoodView() {
     try {
       const {
         data: { foods },
-      } = (await axios.get("http://localhost:8080/foods")) as {
+      } = (await axios.get("http://localhost:8080/food")) as { 
         data: { foods: [] };
       };
       console.log("GEtDataFoods", foods);
