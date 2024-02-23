@@ -88,10 +88,9 @@ export default function FoodView() {
   };
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.currentTarget.files![0]);
-    console.log("------", handleFileChange)
+    console.log("------", handleFileChange);
   };
 
-  
   const [newFood, setNewFood] = useState({
     name: "",
     description: "",
@@ -200,7 +199,6 @@ export default function FoodView() {
         {foods.map((food: any) => (
           <Grid xs={12} sm={6} md={3}>
             <FoodCard key={food._id} food={food} />
-          
           </Grid>
         ))}
       </Grid>
