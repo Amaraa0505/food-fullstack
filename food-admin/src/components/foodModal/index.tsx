@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   Button as MuiButton,
@@ -24,6 +24,8 @@ import { Button, Input } from "../core";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import MySelect from "../core/myselect";
 import axios from "axios";
+import { CategoryContext } from "@/context/CategoryProvider";
+import { FoodContext } from "@/context/FoodProvider";
 
 const style = {
   position: "absolute" as "absolute",
@@ -65,25 +67,8 @@ export default function FoodModal({
     setAge(event.target.value);
   };
 
-  const [categories, setCategories] = React.useState([]);
-
-  const getCategory = async () => {
-    try {
-      const {
-        data: { categories },
-      } = (await axios.get("http://localhost:8080/categories")) as {
-        data: { categories: [] };
-      };
-
-      setCategories(categories);
-    } catch (error: any) {
-      alert("Get Error - " + error.message);
-    }
-  };
-
-  React.useEffect(() => {
-    getCategory();
-  }, []);
+  const { categories } = React.useContext(CategoryContext);
+  const { foods } = useContext(FoodContext);
 
   return (
     <div>

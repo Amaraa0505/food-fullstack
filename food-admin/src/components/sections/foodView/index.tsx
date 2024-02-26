@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
@@ -8,6 +8,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 import FoodModal from "@/components/foodModal";
 import { ChangeEvent } from "react";
+import { FoodContext } from "@/context/FoodProvider";
 
 import FoodCard from "./food-card";
 import FoodSort from "./food-sort";
@@ -106,7 +107,6 @@ export default function FoodView() {
     console.log("DATA++", newFood);
   };
 
-  const [foods, setFoods] = useState([]);
   const [file, setFile] = useState<File | null>(null);
   const [selectedValue, setSelectedValue] = useState("");
 
@@ -130,7 +130,6 @@ export default function FoodView() {
       });
 
       console.log("newFood:", newFood);
-      setFoods(foods);
 
       console.log("Success Add Food");
     } catch (error: any) {
@@ -138,23 +137,25 @@ export default function FoodView() {
     }
   };
 
-  const getFood = async () => {
-    try {
-      const {
-        data: { foods },
-      } = (await axios.get("http://localhost:8080/food")) as { 
-        data: { foods: [] };
-      };
-      console.log("GEtDataFoods", foods);
-      setFoods(foods);
-    } catch (error: any) {
-      alert("error" + error.message);
-    }
-  };
+  const { foods } = useContext(FoodContext);
 
-  useEffect(() => {
-    getFood();
-  }, []);
+  // const getFood = async () => {
+  //   try {
+  //     const {
+  //       data: { foods },
+  //     } = (await axios.get("http://localhost:8080/food")) as {
+  //       data: { foods: [] };
+  //     };
+  //     console.log("GEtDataFoods", foods);
+  //     setFoods(foods);
+  //   } catch (error: any) {
+  //     alert("error" + error.message);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getFood();
+  // }, []);
 
   return (
     <Container>

@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useState, useEffect } from "react";
 import {
   Typography,
   Button,
@@ -9,14 +10,11 @@ import {
   Backdrop,
   Stack,
 } from "@mui/material";
+import axios from "axios";
 
-interface IForm {
-  open: boolean;
-  setOpen: () => void;
-  closeForm: () => void;
-}
+export const Form = ({ open, setOpen, closeForm, food }: any) => {
+  const [foods, setFoods] = useState([]);
 
-const Form = ({ open, setOpen, closeForm }: IForm) => {
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -47,6 +45,7 @@ const Form = ({ open, setOpen, closeForm }: IForm) => {
         }}
         display={"flex"}
       >
+        <Button onClick={closeForm}>Close</Button>
         <Stack
           sx={{
             display: "flex",
@@ -54,15 +53,15 @@ const Form = ({ open, setOpen, closeForm }: IForm) => {
             padding: 3,
           }}
         >
-          <img style={{ height: 250 }} src="pizza.svg"></img>
+          <img style={{ height: 250 }} src={food.image}></img>
         </Stack>
         <Stack sx={{ padding: 2 }}>
           <Stack>
             <Typography fontSize={20} fontWeight={600}>
-              Main Pizza
+              {food.name}
             </Typography>
             <Typography color={"#18BA51"} fontSize={18} fontWeight={550}>
-              34,800
+              {food.price}
             </Typography>
             <Typography sx={{ mt: 1, fontSize: 18, fontWeight: 540 }}>
               Орц
@@ -77,7 +76,7 @@ const Form = ({ open, setOpen, closeForm }: IForm) => {
                 padding: 2,
               }}
             >
-              Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
+              {food.description}
             </Typography>
             <Typography sx={{ fontWeight: 540, fontSize: 18 }}>Тоо</Typography>
           </Stack>
@@ -122,6 +121,9 @@ const Form = ({ open, setOpen, closeForm }: IForm) => {
               mb: 2,
               fontWeight: 550,
             }}
+            onClick={() => {
+              // createBasket => user._id, food._id
+            }}
           >
             {" "}
             Сагслах
@@ -131,5 +133,3 @@ const Form = ({ open, setOpen, closeForm }: IForm) => {
     </Modal>
   );
 };
-
-export default Form;

@@ -1,25 +1,25 @@
+"use client";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { Form } from "../Form";
+import React from "react";
+import { Grid } from "@mui/material";
 
-// import { fCurrency } from "@/utils/format-number";
+import { fCurrency } from "../../utils/format-number";
 
 // import Label from "@/components/label";
 
 // ----------------------------------------------------------------------
 
-export default function FoodCard({ food }: any) {
-  const {
-    name,
-    price,
-    discountPrice,
-    description,
-    image,
-    category,
-    createdAt,
-  } = food;
+export default function FoodCard({ food, category }: any) {
+  const { name, image } = food;
+  const [open, setOpen] = React.useState<boolean>(false);
+  const handleOpen = () => setOpen(true);
+  const closeForm = () => setOpen(false);
+
   const renderImg = (
     <Box
       component="img"
@@ -45,10 +45,10 @@ export default function FoodCard({ food }: any) {
           textDecoration: "line-through",
         }}
       >
-        {/* {food.priceSale && fCurrency(food.priceSale)} */}
+        {food.priceSale && fCurrency(food.priceSale)}
       </Typography>
       &nbsp;
-      {/* {fCurrency(food.price)} */}
+      {fCurrency(food.price)}
     </Typography>
   );
 
@@ -57,16 +57,21 @@ export default function FoodCard({ food }: any) {
       sx={{
         ":hover": {
           cursor: "pointer",
+          ml: 3,
+          // display: "flex",
+          // gap: 200,
+          // flexDirection: "column",
         },
       }}
+      onClick={handleOpen}
     >
-      <Box sx={{ pt: "100%", position: "relative" }}>
+      <Box sx={{ pt: "100%", position: "relative", width: 300 }}>
         {/* {product.status && renderStatus} */}
 
         {renderImg}
       </Box>
 
-      <Stack spacing={2} sx={{ p: 3 }}>
+      <Stack sx={{}}>
         <Link color="inherit" underline="hover" variant="subtitle2" noWrap>
           {name}
         </Link>
@@ -79,6 +84,14 @@ export default function FoodCard({ food }: any) {
           {renderPrice}
         </Stack>
       </Stack>
+      {open && (
+        <Form
+          open={open}
+          setOpen={handleOpen}
+          closeForm={closeForm}
+          food={food}
+        />
+      )}
     </Card>
   );
 }
