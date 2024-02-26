@@ -1,10 +1,10 @@
-import { Router } from "express";
-
-import { getBacket, createBacket } from "../controller/backetController";
+import { NextFunction, Router, Response } from "express";
+import { addBasket } from "../controller/backetController";
+import { IReq } from "../utils/interface";
 import { authenticate } from "../middleware/auth";
 
-const backetRoute = Router();
+const router = Router();
 
-backetRoute.route("/").get(authenticate, getBacket).post(createBacket);
+router.route("/").post(authenticate, addBasket);
 
-export default backetRoute;
+export default router;

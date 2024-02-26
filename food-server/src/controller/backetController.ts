@@ -1,38 +1,49 @@
 import { NextFunction, Request, Response } from "express";
-import Category from "../model/category";
-import MyError from "../utils/myError";
-import cloudinary from "../utils/cloudinary";
+import Basket from "../model/backet";
+import { IReq } from "../utils/interface";
 
-import Backet from "../model/backet";
-
-export const createBacket = async (
-  req: Request,
+export const addBasket = async (
+  req: IReq,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const newBacket = req.body;
-    await Category.create(newBacket);
+  console.log("User", req.user);
+  console.log("Body", req.body);
 
-    res.status(201).json({ message: "backet амжилттай үүслээ." });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getBacket = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
   try {
-    const backet = await Backet.findOne({
-      //   user: req.user._id,
-    }).populate("foods.food");
-    if (!backet) {
-      res.status(400).json({ message: "cannot found backet " });
+    const findBasket = await Basket.findOne({ user: req.user._id }); ////
+
+    if (!findBasket) {
+      const basket = await Basket.create({
+        user: req.user._id, ///
+        foods: [
+          {
+            food: req.body.foodId,   
+            qty: req.body.quantity,
+          },
+        ],
+        totalPrice: req.body.totalPrice,
+      });
+      res.status(200).json({ message: "Сагсанд хоол амжилттай нэмлээ-1" });
+    } else {
+      console.log("BFOODS", findBasket);
+      const findIndex = findBasket.foods.findIndex(
+        (el) => el.food.toString === req.body.foodId ///
+      );
+      console.log("Find", findIndex);
+      console.log("Foods", findBasket.foods);
+
+      if (findIndex !== -1) {
+        findBasket.foods[findIndex].qty = Number(req.body.quantity) ///;
+        findBasket.totalPrice = Number(req.body.totalPrice);
+      }
+
+      console.log("ChangedFoods", findBasket.foods);
+
+      await findBasket.save();
+      res.status(200).json({ message: "Сагсанд хоол амжилттай нэмлээ-2" });
     }
   } catch (error) {
-    console.log("ERR", error);
+    next(error);
   }
 };

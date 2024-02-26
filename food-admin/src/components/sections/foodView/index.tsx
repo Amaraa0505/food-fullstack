@@ -23,51 +23,6 @@ import Iconify from "@/components/iconify";
 
 // ----------------------------------------------------------------------
 
-const FOOD_NAME = [
-  "Nike Air Force 1 NDESTRUKT",
-  "Nike Space Hippie 04",
-  "Nike Air Zoom Pegasus 37 A.I.R. Chaz Bear",
-  "Nike Blazer Low 77 Vintage",
-  "Nike ZoomX SuperRep Surge",
-  "Zoom Freak 2",
-  "Nike Air Max Zephyr",
-  "Jordan Delta",
-];
-const FOOD_COLOR = [
-  "#00AB55",
-  "#000000",
-  "#FFFFFF",
-  "#FFC0CB",
-  "#FF4842",
-  "#1890FF",
-  "#94D82D",
-  "#FFC107",
-];
-
-// ----------------------------------------------------------------------
-
-export const products = [...Array(FOOD_NAME.length)].map((_, index) => {
-  const setIndex = index + 1;
-
-  return {
-    id: faker.string.uuid(),
-    cover: `/assets/images/products/product_${setIndex}.jpg`,
-    name: FOOD_NAME[index],
-    price: faker.number.int({ min: 4, max: 99 }),
-    priceSale: setIndex % 3 ? null : faker.number.int({ min: 19, max: 29 }),
-    colors:
-      (setIndex === 1 && FOOD_COLOR.slice(0, 2)) ||
-      (setIndex === 2 && FOOD_COLOR.slice(1, 3)) ||
-      (setIndex === 3 && FOOD_COLOR.slice(2, 4)) ||
-      (setIndex === 4 && FOOD_COLOR.slice(3, 6)) ||
-      (setIndex === 23 && FOOD_COLOR.slice(4, 6)) ||
-      (setIndex === 24 && FOOD_COLOR.slice(5, 6)) ||
-      FOOD_COLOR,
-    status: sample(["sale", "new", "", ""]),
-  };
-});
-
-// ----------------------------------------------------------------------
 
 export default function FoodView() {
   const [openFilter, setOpenFilter] = useState(false);
@@ -138,24 +93,6 @@ export default function FoodView() {
   };
 
   const { foods } = useContext(FoodContext);
-
-  // const getFood = async () => {
-  //   try {
-  //     const {
-  //       data: { foods },
-  //     } = (await axios.get("http://localhost:8080/food")) as {
-  //       data: { foods: [] };
-  //     };
-  //     console.log("GEtDataFoods", foods);
-  //     setFoods(foods);
-  //   } catch (error: any) {
-  //     alert("error" + error.message);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getFood();
-  // }, []);
 
   return (
     <Container>

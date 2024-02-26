@@ -10,14 +10,14 @@ import React, {
 import { UserContext } from "../UserProvider";
 import axios from "axios";
 
-interface IBacket {
-  _id : string;
-  name: string;
-  foods: 
-}
+// interface IBacket {
+//   _id : string;
+//   name: string;
+//   foods: 
+// }
 
 interface IBacketContext {
-  backets: IBacket[];
+  // backets: IBacket[];
 }
 
 export const BacketContext = createContext<IBacketContext>(
@@ -40,6 +40,33 @@ const BacketProvider = ({ children }: PropsWithChildren) => {
       console.log("ERR", error);
     }
   };
+
+
+const [food, setFood]=useState({
+  foodId:"",
+  price:""
+})
+
+const handleChangeFood = (e: ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+
+  setFood({ ...food, [name]: value });
+
+};
+
+  const createBasket = async () => {
+    try {
+      const foodData = new FormData()
+      foodData.set("foodId", food.foodId);
+      foodData.set("price", food.price)
+     await axios.post("http://localhost:8080/backet",{foodData})
+
+      setBackets(backets);
+    } catch (error: any) {
+      console.log("ERR", error);
+    }
+  };
+
 
   useEffect(() => {
     getBacket();
