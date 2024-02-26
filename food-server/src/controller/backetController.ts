@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import Basket from "../model/backet";
 import { IReq } from "../utils/interface";
+import MyError from "../utils/myError";
 
 export const addBasket = async (
   req: IReq,
@@ -47,3 +48,21 @@ export const addBasket = async (
     next(error);
   }
 };
+
+
+export const putBasket = async (
+  req:IReq,
+  res:Response,
+  next:NextFunction
+)=>{
+try {
+  const {foodId}=req.params
+  const updateBasket = req.body
+  const food = await Basket.findByIdAndUpdate(foodId)
+  if (!food){
+    throw new MyError(`food not found`, 400)
+  }
+} catch (error) {
+  
+}
+}

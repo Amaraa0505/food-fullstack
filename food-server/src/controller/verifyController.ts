@@ -82,7 +82,7 @@ export const verifyUser = async (req: Request, res: Response) => {
     const { email } = jwt.verify(
       ///
       token as string,
-      process.env.JWT_PRIVATE_KEY as string
+      process.env.JWT_PRIVATE_KEY as string ///
     ) as { email: string };
 
     const findUser = await User.findOne({ email: email });
