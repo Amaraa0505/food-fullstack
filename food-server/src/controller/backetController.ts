@@ -38,6 +38,9 @@ export const addBasket = async (
       if (findIndex !== -1) {
         findBasket.foods[findIndex].qty = Number(req.body.quantity); ///;
         findBasket.totalPrice = Number(req.body.totalPrice);
+      }else{
+        findBasket.foods.push(req.body.foods) ///;
+        findBasket.totalPrice = Number(req.body.totalPrice);
       }
 
       console.log("ChangedFoods", findBasket.foods);
@@ -50,26 +53,43 @@ export const addBasket = async (
   }
 };
 
-export const putBasket = async (
-  req: IReq,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const findUser = await Basket.findOne({ user: req.user._id });
-    if (!findUser) {
-      console.log("Sags baihgui baina", error);
-    } else {
-      const findIndex = findUser.foods.findIndex(
-        (el) => el.food.toString === req.body.foodId
-      );
+export const updateBasket =async(req:IReq, res:Response, next:NextFunction)=>{
+try {
+  const findFoods = await Basket.findOne({user: req.user._id})
+  // if (findFoods) {
+  //   const foodIndex = findFoods?.foods.findIndex((e)=>e.food == req.body.foods.food)
+  // findFoods!.foods?[foodIndex].qty = req.body.foods.quantity
+  // }
+  
+} catch (error) {
+  
+}
+}
 
-      // const update = await findUser.foods.findByIdAndUpdate(foodId);
-      // if (!update) {
-      //   throw new MyError(`update hiih hool oldsongui`, 400);
-      // }
-    }
-  } catch (error) {
-    next(error);
-  }
-};
+
+
+
+// export const putBasket = async (
+//   req: IReq,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const findUser = await Basket.findOne({ user: req.user._id });
+//     if (!findUser) {
+//       console.log("Sags baihgui baina", error);
+//     } else {
+//       const findIndex = findUser.foods.findIndex(
+//         (el) => el.food.toString === req.body.foodId
+//       );
+      
+
+//       const update = await findUser.foods.findByIdAndUpdate(foodId,);
+//       if (!update) {
+//         throw new MyError(`update hiih hool oldsongui`, 400);
+//       }
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// };
