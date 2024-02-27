@@ -5,10 +5,11 @@ import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Form } from "../Form";
-import React from "react";
+
 import { Grid } from "@mui/material";
 
 import { fCurrency } from "../../utils/format-number";
+import { useState } from "react";
 
 // import Label from "@/components/label";
 
@@ -16,9 +17,17 @@ import { fCurrency } from "../../utils/format-number";
 
 export default function FoodCard({ food, category }: any) {
   const { name, image } = food;
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [open, setOpen] = useState(false);
+
   const handleOpen = () => setOpen(true);
-  const closeForm = () => setOpen(false);
+
+  const closeForm = () => {
+    console.log("CLO");
+    setOpen((prev) => {
+      console.log("STA", prev);
+      return false;
+    });
+  };
 
   const renderImg = (
     <Box
@@ -84,14 +93,13 @@ export default function FoodCard({ food, category }: any) {
           {renderPrice}
         </Stack>
       </Stack>
-      {open && (
-        <Form
-          open={open}
-          setOpen={handleOpen}
-          closeForm={closeForm}
-          food={food}
-        />
-      )}
+
+      <Form
+        open={open}
+        setOpen={handleOpen}
+        closeForm={closeForm}
+        food={food}
+      />
     </Card>
   );
 }

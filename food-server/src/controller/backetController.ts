@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Basket from "../model/backet";
 import { IReq } from "../utils/interface";
 import MyError from "../utils/myError";
+import { error } from "console";
 
 export const addBasket = async (
   req: IReq,
@@ -19,7 +20,7 @@ export const addBasket = async (
         user: req.user._id, ///
         foods: [
           {
-            food: req.body.foodId,   
+            food: req.body.foodId,
             qty: req.body.quantity,
           },
         ],
@@ -35,7 +36,7 @@ export const addBasket = async (
       console.log("Foods", findBasket.foods);
 
       if (findIndex !== -1) {
-        findBasket.foods[findIndex].qty = Number(req.body.quantity) ///;
+        findBasket.foods[findIndex].qty = Number(req.body.quantity); ///;
         findBasket.totalPrice = Number(req.body.totalPrice);
       }
 
@@ -49,20 +50,26 @@ export const addBasket = async (
   }
 };
 
-
 export const putBasket = async (
-  req:IReq,
-  res:Response,
-  next:NextFunction
-)=>{
-try {
-  const {foodId}=req.params
-  const updateBasket = req.body
-  const food = await Basket.findByIdAndUpdate(foodId)
-  if (!food){
-    throw new MyError(`food not found`, 400)
+  req: IReq,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const findUser = await Basket.findOne({ user: req.user._id });
+    if (!findUser) {
+      console.log("Sags baihgui baina", error);
+    } else {
+      const findIndex = findUser.foods.findIndex(
+        (el) => el.food.toString === req.body.foodId
+      );
+
+      // const update = await findUser.foods.findByIdAndUpdate(foodId);
+      // if (!update) {
+      //   throw new MyError(`update hiih hool oldsongui`, 400);
+      // }
+    }
+  } catch (error) {
+    next(error);
   }
-} catch (error) {
-  
-}
-}
+};

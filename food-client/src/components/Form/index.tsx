@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useState, useEffect } from "react";
+import CartDrawer from "../CardDrawer";
 import {
   Typography,
   Button,
@@ -12,8 +13,18 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-export const Form = ({ open, setOpen, closeForm, food }: any) => {
+export const Form = ({ open, closeForm, food }: any) => {
   const [foods, setFoods] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const handleCartOpen = () => {
+    setIsCartOpen(true);
+  };
+
+  const handleCartClose = () => {
+    setIsCartOpen(false);
+  };
+
+  console.log("OO", open);
 
   return (
     <Modal
@@ -45,7 +56,14 @@ export const Form = ({ open, setOpen, closeForm, food }: any) => {
         }}
         display={"flex"}
       >
-        <Button onClick={closeForm}>Close</Button>
+        <Button
+          onClick={() => {
+            console.log("CLOSE", closeForm);
+            closeForm();
+          }}
+        >
+          Close
+        </Button>
         <Stack
           sx={{
             display: "flex",
@@ -121,14 +139,17 @@ export const Form = ({ open, setOpen, closeForm, food }: any) => {
               mb: 2,
               fontWeight: 550,
             }}
-            onClick={() => {
-              // createBacket => user._id, food._id
-            }}
+            onClick={handleCartOpen}
           >
             {" "}
             Сагслах
           </Button>
         </Stack>
+        <CartDrawer
+          isCartOpen={isCartOpen}
+          handleCartClose={handleCartClose}
+          food={food}
+        />
       </Box>
     </Modal>
   );

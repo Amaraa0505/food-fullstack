@@ -6,5 +6,6 @@ import { authenticate } from "../middleware/auth";
 const router = Router();
 
 router.route("/").post(authenticate, addBasket);
+router.route("/basketId").put(authenticate);
 
 export default router;

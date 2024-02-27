@@ -19,8 +19,6 @@ import {
   Avatar,
 } from "@mui/material";
 
-import CartDrawer from "../CardDrawer";
-
 export const Header = () => {
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => {
@@ -30,16 +28,6 @@ export const Header = () => {
   };
   const handleClose = () => {
     setOpen(() => false);
-  };
-
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const handleCartOpen = () => {
-    setIsCartOpen(true);
-  };
-
-  const handleCartClose = () => {
-    setIsCartOpen(false);
   };
 
   return (
@@ -69,7 +57,6 @@ export const Header = () => {
         <Grid display={"flex"} gap={3}></Grid>
         <Grid display={"flex"} gap={3}>
           <Link
-            onClick={handleCartOpen}
             style={{
               cursor: "pointer",
               color: "black",
@@ -101,7 +88,6 @@ export const Header = () => {
             Хэрэглэгч
           </Link>
         </Grid>
-        <CartDrawer isCartOpen={isCartOpen} handleCartClose={handleCartClose} />
       </Stack>
     </Grid>
   );
