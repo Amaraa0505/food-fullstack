@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import CartDrawer from "../CardDrawer";
+import { BacketContext } from "../../contex/BacketProvider";
 import {
   Typography,
   Button,
@@ -14,6 +15,7 @@ import {
 import axios from "axios";
 
 export const Form = ({ open, closeForm, food }: any) => {
+  const { backets } = useContext(BacketContext);
   const [foods, setFoods] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const handleCartOpen = () => {

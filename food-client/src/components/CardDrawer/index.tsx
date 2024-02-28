@@ -30,7 +30,7 @@ const CartDrawer: React.FC<Props> = ({
       anchor="right"
       open={isCartOpen}
       onClose={handleCartClose}
-      sx={{ display: "flex", flexDirection: "row" }}
+      sx={{ display: "flex", flexDirection: "row", padding: 10, ml: 20 }}
     >
       <Box>
         <Grid container spacing={3} sx={{ fontSize: 20 }}>
