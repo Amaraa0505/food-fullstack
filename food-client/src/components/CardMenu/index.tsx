@@ -8,10 +8,13 @@ import FoodCard from "../FoodCard";
 import CategoryCard from "../CategoryCard";
 import { FoodContext } from "@/contex/FoodProvider";
 import { CategoryContext } from "@/contex/CatgeoryProvider";
+import { BasketContext } from "@/contex/BasketProvider";
+import BasketCard from "../BasketCard";
 
 const CardMenu = () => {
+  const[ baskets, setBaskets]=useState([])
   const [category, setCategory] = useState([]);
-
+const {}=useContext(BasketContext)
   const { getFood, foods } = useContext(FoodContext);
   const { categories } = useContext(CategoryContext);
 
@@ -34,6 +37,11 @@ const CardMenu = () => {
           </Grid>
         ))}
       </Grid>
+      {/* <Grid>
+        {baskets.map?((basket:any)=>(
+          <BasketCard/>
+        ))}
+      </Grid> */}
     </Box>
   );
 };

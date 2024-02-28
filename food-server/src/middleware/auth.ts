@@ -13,14 +13,14 @@ export const authenticate = async (
     if (!req.headers.authorization) {
       throw new MyError("Token байхгүй байна. заавал token илгээх ёстой", 400);
     }
+
     const token = req.headers.authorization.split(" ")[1];
-    console.log("TOKEN", token);
+
     if (!token) {
       throw new MyError("Энэ үйлдлийг хийхийн тулд нэвтэрх ёстой", 400);
     }
 
     const { id } = jwt.verify(token!, process.env.JWT_PRIVATE_KEY!) as {
-      ///
       id: string;
     };
     const findUser = await User.findById(id);

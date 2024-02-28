@@ -4,6 +4,7 @@ import axios from "axios";
 import React from "react";
 import LoginForm from "../LoginForm";
 import customer from "@/app/(auth)/customer/page";
+import CartDrawer from "../../components/CardDrawer";
 
 import {
   Grid,
@@ -28,6 +29,16 @@ export const Header = () => {
   };
   const handleClose = () => {
     setOpen(() => false);
+  };
+
+
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const handleCartOpen = () => {
+    setIsCartOpen(true);
+  };
+
+  const handleCartClose = () => {
+    setIsCartOpen(false);
   };
 
   return (
@@ -62,6 +73,7 @@ export const Header = () => {
               color: "black",
               textDecoration: "none",
             }}
+            onClick={handleCartOpen}
           >
             Сагс
           </Link>
@@ -89,6 +101,11 @@ export const Header = () => {
           </Link>
         </Grid>
       </Stack>
+      <CartDrawer
+          isCartOpen={isCartOpen}
+          handleCartClose={handleCartClose}
+         
+        />
     </Grid>
   );
 };

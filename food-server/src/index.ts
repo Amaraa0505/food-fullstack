@@ -13,6 +13,7 @@ import categoryRoute from "./router/categoryRoute";
 import errorHandler from "./middleware/errorHandler";
 import uploadRoute from "./router/uploadRoute";
 import backetRoute from "./router/backetRoute";
+import orderRoute from "./router/order.route";
 // import transactionRoute from "./router/transactionRoute"
 
 const PORT = process.env.PORT;
@@ -31,6 +32,7 @@ app.use("/verify", verifyRoute);
 app.use("/food", foodRoute);
 app.use("/upload", uploadRoute);
 app.use("/backet", backetRoute);
+app.use("order", orderRoute)
 // app.use("/transaction", transactionRoute)
 
 app.use(errorHandler);

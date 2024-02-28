@@ -15,15 +15,30 @@ interface CartItem {
 interface Props {
   isCartOpen: boolean;
   handleCartClose: () => void;
-  food: {};
+ 
 }
 
 const CartDrawer: React.FC<Props> = ({
   isCartOpen,
   handleCartClose,
-  food,
+  
 }: any) => {
-  // const { foods, selectedFood } = useContext(FoodContext);
+  const { foods,  } = useContext(FoodContext);
+  const [quantity, setQuantity]=useState(1)
+
+  const handleIncreaseQuantity = () => {
+    
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecreaseQuantity = () => {
+
+    if (quantity > 1) {
+     
+      setQuantity(quantity - 1);
+    }
+  };
+
 
   return (
     <Drawer
@@ -34,10 +49,15 @@ const CartDrawer: React.FC<Props> = ({
     >
       <Box>
         <Grid container spacing={3} sx={{ fontSize: 20 }}>
-          {food.name}
+          {/* {food.name} */}
         </Grid>
-        <img style={{ height: 250, borderRadius: 50 }} src={food.image}></img>
-        <Grid sx={{ fontSize: 20 }}>Price: {food.price}</Grid>
+        <img style={{ height: 250, borderRadius: 50 }}
+        //  src=
+        // {food.image}
+        ></img>
+        <Grid sx={{ fontSize: 20 }}>Price: 
+        {/* {food.price} */}
+        </Grid>
       </Box>
       <Box sx={{ display: "flex", gap: 3 }}>
         <Button
@@ -47,11 +67,12 @@ const CartDrawer: React.FC<Props> = ({
             color: "white",
             fontWeight: 550,
           }}
+          onClick={handleDecreaseQuantity}
         >
           -
         </Button>
 
-        <Typography sx={{ font: "revert-layer" }}>1</Typography>
+        <Typography sx={{ font: "revert-layer" }}>{quantity}</Typography>
 
         <Button
           sx={{
@@ -60,6 +81,7 @@ const CartDrawer: React.FC<Props> = ({
             color: "white",
             fontWeight: 550,
           }}
+          onClick={handleIncreaseQuantity}
         >
           +
         </Button>

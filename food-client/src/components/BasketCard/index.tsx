@@ -16,7 +16,7 @@ import { useState, useContext } from "react";
 
 // ----------------------------------------------------------------------
 
-export default function FoodCard({ food, category }: any) {
+export default function BasketCard({ food, category }: any) {
   const { name, image } = food;
   const [open, setOpen] = useState(false);
 const {getFoodBasket, deleteFoodFromBasket, updateFoodToBasket, addFoodToBasket}:any=useContext(BasketContext)

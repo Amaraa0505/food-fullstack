@@ -1,8 +1,8 @@
 "use client";
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import CartDrawer from "../CardDrawer";
-import { BacketContext } from "../../contex/BacketProvider";
+
+import { BasketContext } from "../../contex/BasketProvider";
 import {
   Typography,
   Button,
@@ -15,18 +15,26 @@ import {
 import axios from "axios";
 
 export const Form = ({ open, closeForm, food }: any) => {
-  const { backets } = useContext(BacketContext);
-  const [foods, setFoods] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const handleCartOpen = () => {
-    setIsCartOpen(true);
-  };
+  const { addFoodToBasket, baskets }:any = useContext(BasketContext);
+const [quantity, setQuantity]=useState(1)
+const sum =baskets?.foods?.map((food:any)=>food.food.price * food.count).reduce((a,b)=>a + b, 0)
 
-  const handleCartClose = () => {
-    setIsCartOpen(false);
-  };
+const handleCount=(operation:string)=>{
+  if(operation === "add" ){
+    if(quantity < 10)setQuantity(quantity +1)
+  }else {
+if(quantity)setQuantity(quantity - 1)}
+}
 
-  console.log("OO", open);
+  const sentFood=()=>{
+addFoodToBasket({
+  foodId: food._id,
+  quantity:quantity,
+  totalPrice:sum
+})
+closeForm()
+  }
+
 
   return (
     <Modal
@@ -116,11 +124,12 @@ export const Form = ({ open, closeForm, food }: any) => {
                 color: "white",
                 fontWeight: 550,
               }}
+              onClick={()=>handleCount("min")}
             >
               -
             </Button>
 
-            <Typography sx={{ font: "revert-layer" }}>1</Typography>
+            <Typography sx={{ font: "revert-layer" }}>{quantity}</Typography>
 
             <Button
               sx={{
@@ -129,6 +138,7 @@ export const Form = ({ open, closeForm, food }: any) => {
                 color: "white",
                 fontWeight: 550,
               }}
+              onClick={()=>handleCount("add")}
             >
               +
             </Button>
@@ -141,17 +151,13 @@ export const Form = ({ open, closeForm, food }: any) => {
               mb: 2,
               fontWeight: 550,
             }}
-            onClick={handleCartOpen}
+           onClick={()=>sentFood()}
           >
             {" "}
             Сагслах
           </Button>
         </Stack>
-        <CartDrawer
-          isCartOpen={isCartOpen}
-          handleCartClose={handleCartClose}
-          food={food}
-        />
+       
       </Box>
     </Modal>
   );

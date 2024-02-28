@@ -1,132 +1,121 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import Basket from "../model/backet";
 import { IReq } from "../utils/interface";
 import MyError from "../utils/myError";
-import { error } from "console";
 
-export const addBasket = async (
+export const addToBasketByUserId = async (
   req: IReq,
   res: Response,
   next: NextFunction
 ) => {
   console.log("User", req.user);
-  console.log("BodyYYYY", req.body);
-
+  console.log("Body", req.body);
   try {
-    const findBasket = await Basket.findOne({ user: req.user._id }); ////
+    const findBasket = await Basket.findOne({ user: req.user._id });
 
     if (!findBasket) {
-      const basket = await Basket.create({
-        user: req.user._id, ///
-        foods: [
-          {
-            food: req.body.food,
-            qty: req.body.quantity,
-          },
-        ],
-        totalPrice: req.body.totalPrice,
-      });
-      res.status(200).json({ message: "Сагсанд хоол амжилттай нэмлээ-1" });
+      const basket = await (
+        await Basket.create({
+          user: req.user._id,
+          foods: [
+            {
+              food: req.body.foodId,
+              qty: req.body.quantity,
+            },
+          ],
+          totalPrice: req.body.totalPrice,
+        })
+      ).populate("foods.food");
+      res.status(200).json({ message: "Хоол амжилттай нэмлээ-1", basket });
     } else {
-      const findIndex = findBasket.foods.findIndex((el) => {
-        return el.food.toString() === req.body.foodId; ///
-      });
+      console.log("BFOODS", findBasket);
+      const findIndex = findBasket.foods.findIndex(
+        (el) => el.food.toString() === req.body.foodId
+      );
       console.log("Find", findIndex);
-      // console.log("Foods", findBasket.foods);
 
       if (findIndex !== -1) {
-        findBasket.foods[findIndex].qty = Number(req.body.quantity); ///;
+        findBasket.foods[findIndex].qty = Number(req.body.quantity);
+        findBasket.totalPrice = Number(req.body.totalPrice);
+      } else {
+        findBasket.foods.push(req.body.foodId);
         findBasket.totalPrice = Number(req.body.totalPrice);
       }
-      console.log("ChangedFoods", findBasket.foods);
 
-      await findBasket.save();
-      res.status(200).json({ message: "Сагсанд хоол амжилттай нэмлээ-2" });
+      const savedBasket = await (
+        await findBasket.save()
+      ).populate("foods.food");
+
+      // const savedBasket = await (
+      //   await findBasket.save()
+      // ).populate("foods.food");
+
+      console.log("ChangedFoods", savedBasket);
+
+      res.status(200).json({
+        message: "Хоол амжилттай нэмлээ-2",
+        basket: { foods: savedBasket.foods, totalPrice: findBasket.totalPrice },
+      });
     }
   } catch (error) {
     next(error);
   }
 };
 
-// export const updateBasket = async (
-//   req: IReq,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-// const findFoods = await Basket.findOne({ user: req.user._id });
-// if (findFoods) {
-//   const foodIndex = findFoods?.foods.findIndex((e)=>e.food == req.body.foods.food)
-// findFoods!.foods?[foodIndex].qty = req.body.foods.quantity
-// }
-// } catch (error) {}
-// };
-
-// export const updateBasket = async (
-//   req: IReq,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const findUser = await Basket.findOne({ user: req.user._id });
-//     if (!findUser) {
-//       console.log("User baihgui baina", error);
-//     } else {
-//       console.log("USER: ", findUser);
-
-//       const findIndex = findUser.foods.findIndex(
-//         (el) => el.food.toString === req.body.foodId
-//       );
-//       console.log("++");
-//       if (findIndex) {
-//         findUser.foods[findIndex].qty = Number(req.body.quantity);
-//         findUser.totalPrice = Number(req.body.totalPrice);
-//       }
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-export const getBasket = async (
+export const getFromBasketByUser = async (
   req: IReq,
   res: Response,
   next: NextFunction
 ) => {
+  console.log("User", req.user);
   try {
-    const { basketId } = req.params;
-    const basket = await Basket.findById(basketId);
-    if (!basket) {
-      throw new MyError(`sags oldsongui`, 400);
+    const findBasket = await Basket.findOne({ user: req.user._id }).populate(
+      "foods.food"
+    );
+
+    if (!findBasket) {
+      throw new MyError("Сагсны мэдээлэл олдсонгүй", 400);
     }
-    res.status(200).json({ message: `${basketId}basket oldoo` });
+
+    res.status(200).json({
+      message: "Хоолны мэдээлэл",
+      basket: { foods: findBasket.foods, totalPrice: findBasket.totalPrice },
+    });
   } catch (error) {
     next(error);
   }
 };
 
-export const getAllBasket = async (
+export const deleteFromBasketByUser = async (
   req: IReq,
   res: Response,
   next: NextFunction
 ) => {
+  const { foodId } = req.params;
+  const { user } = req;
+
+  console.log("User", user);
+  console.log("FoodId", foodId);
   try {
-    const baskets = await Basket.find();
-    res.status(200).json({ message: `${baskets}buh baskets oldloo` });
+    const findBasket = await Basket.findOne({ user: user._id }).populate(
+      "foods.food"
+    );
+    if (!findBasket) {
+      throw new MyError("Сагсны мэдээлэл олдсонгүй", 400);
+    }
+    const findIndex = findBasket.foods.findIndex(
+      (el) => el.food.toString() === foodId
+    );
+    console.log("Find IDX: ", findIndex);
+    if (findIndex !== -1) {
+      findBasket.foods.splice(findIndex, 1);
+    }
+    const savedBasket = await (await findBasket.save()).populate("foods.food");
+    res.status(200).json({
+      message: "Хоолыг сагснаас хаслаа.",
+      basket: { foods: savedBasket.foods, totalPrice: savedBasket.totalPrice },
+    });
   } catch (error) {
     next(error);
   }
 };
-
-// export const deleteBasket = async(req:IReq, res:Response, next:NextFunction){
-//   try {
-//     const {deleteId}=req.params
-//     const basket = await Basket.findByIdAndDelete{deleteId}
-// if(!deleteId){
-// throw new MyError(`${deleteId} oldsongui`, 400)
-// }
-// res.status(200).json({message:"ustlaa"})
-//   } catch (error) {
-// next(error)
-//   }
-// }

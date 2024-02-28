@@ -1,15 +1,18 @@
-import { NextFunction, Router, Response } from "express";
-import {
-  addBasket,
-  getAllBasket,
-  getBasket,
-} from "../controller/backetController";
-import { IReq } from "../utils/interface";
+import { Router } from "express";
 import { authenticate } from "../middleware/auth";
+import {
+  addToBasketByUserId,
+  deleteFromBasketByUser,
+  getFromBasketByUser,
+} from "../controller/backetController";
 
 const router = Router();
 
-router.route("/").post(authenticate, addBasket).get(getAllBasket);
-// router.route("/basketId").put(authenticate).get(getBasket).put(updateBasket);
+router
+  .route("/")
+  .post(authenticate, addToBasketByUserId)
+  .get(authenticate, getFromBasketByUser);
+
+router.route("/:foodId").delete(authenticate, deleteFromBasketByUser);
 
 export default router;
