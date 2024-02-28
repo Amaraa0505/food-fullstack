@@ -13,7 +13,14 @@ import axios from "axios";
 interface IBacket {
   food: string;
   quantity: number;
-  totalPrice: number;
+  _id: string;
+  name: string;
+  desc: string;
+  price: number;
+  image: string;
+  discountPrice?: number;
+  category: object;
+  isSale: boolean;
 }
 
 interface IBacketContext {
