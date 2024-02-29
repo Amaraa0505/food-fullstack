@@ -15,26 +15,24 @@ import {
 import axios from "axios";
 
 export const Form = ({ open, closeForm, food }: any) => {
-  const { addFoodToBasket, baskets }:any = useContext(BasketContext);
-const [quantity, setQuantity]=useState(1)
-const sum =baskets?.foods?.map((food:any)=>food.food.price * food.count).reduce((a,b)=>a + b, 0)
+  // const { addFoodToBasket, baskets }: any = useContext(BasketContext);
+  const [quantity, setQuantity] = useState(1);
 
-const handleCount=(operation:string)=>{
-  if(operation === "add" ){
-    if(quantity < 10)setQuantity(quantity +1)
-  }else {
-if(quantity)setQuantity(quantity - 1)}
-}
+  const handleCount = (operation: string) => {
+    if (operation === "add") {
+      if (quantity < 10) setQuantity(quantity + 1);
+    } else {
+      if (quantity) setQuantity(quantity - 1);
+    }
+  };
 
-  const sentFood=()=>{
-addFoodToBasket({
-  foodId: food._id,
-  quantity:quantity,
-  totalPrice:sum
-})
-closeForm()
-  }
-
+  const sentFood = () => {
+    // addFoodToBasket({
+    foodId: food._id,
+      // quantity: quantity,
+      // });
+      closeForm();
+  };
 
   return (
     <Modal
@@ -124,7 +122,7 @@ closeForm()
                 color: "white",
                 fontWeight: 550,
               }}
-              onClick={()=>handleCount("min")}
+              onClick={() => handleCount("min")}
             >
               -
             </Button>
@@ -138,7 +136,7 @@ closeForm()
                 color: "white",
                 fontWeight: 550,
               }}
-              onClick={()=>handleCount("add")}
+              onClick={() => handleCount("add")}
             >
               +
             </Button>
@@ -151,13 +149,12 @@ closeForm()
               mb: 2,
               fontWeight: 550,
             }}
-           onClick={()=>sentFood()}
+            onClick={() => sentFood()}
           >
             {" "}
             Сагслах
           </Button>
         </Stack>
-       
       </Box>
     </Modal>
   );

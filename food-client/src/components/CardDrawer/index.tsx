@@ -1,10 +1,10 @@
 // CardDrawer.js
 import React, { useContext } from "react";
 import { Box, Drawer, Typography, Grid, Button, Stack } from "@mui/material";
-import axios from "axios";
 import { useState, useEffect } from "react";
-import FoodCard from "../FoodCard";
 import { FoodContext } from "@/contex/FoodProvider";
+import { BasketContext } from "@/contex/BasketProvider";
+import BasketCard from "../BasketCard";
 
 interface CartItem {
   id: number;
@@ -15,30 +15,22 @@ interface CartItem {
 interface Props {
   isCartOpen: boolean;
   handleCartClose: () => void;
- 
 }
 
-const CartDrawer: React.FC<Props> = ({
-  isCartOpen,
-  handleCartClose,
-  
-}: any) => {
-  const { foods,  } = useContext(FoodContext);
-  const [quantity, setQuantity]=useState(1)
+const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
+  const { foods } = useContext(FoodContext);
+  const { basketData }: any = useContext(BasketContext);
+  const [quantity, setQuantity] = useState(1);
 
   const handleIncreaseQuantity = () => {
-    
     setQuantity(quantity + 1);
   };
 
   const handleDecreaseQuantity = () => {
-
     if (quantity > 1) {
-     
       setQuantity(quantity - 1);
     }
   };
-
 
   return (
     <Drawer
@@ -47,18 +39,20 @@ const CartDrawer: React.FC<Props> = ({
       onClose={handleCartClose}
       sx={{ display: "flex", flexDirection: "row", padding: 10, ml: 20 }}
     >
-      <Box>
-        <Grid container spacing={3} sx={{ fontSize: 20 }}>
-          {/* {food.name} */}
-        </Grid>
-        <img style={{ height: 250, borderRadius: 50 }}
-        //  src=
-        // {food.image}
-        ></img>
-        <Grid sx={{ fontSize: 20 }}>Price: 
-        {/* {food.price} */}
-        </Grid>
-      </Box>
+      <Grid>
+        {basketData?.mao((e: any) => (
+          <Box>
+            <BasketCard
+              name={e?.foodId?.name}
+              description={e?.foodId?.description}
+              price={e?.foodId?.price}
+              image={e?.foodId?.image}
+              id={e?.foodId?._id}
+              foodQuantity={e?.quantity}
+            />
+          </Box>
+        ))}
+      </Grid>
       <Box sx={{ display: "flex", gap: 3 }}>
         <Button
           sx={{
