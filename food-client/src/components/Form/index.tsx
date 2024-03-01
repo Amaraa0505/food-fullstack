@@ -14,6 +14,7 @@ import {
   Grid,
 } from "@mui/material";
 import axios from "axios";
+import { BorderAllRounded } from "@mui/icons-material";
 
 export const Form = ({
   id,
@@ -35,7 +36,7 @@ export const Form = ({
   closeForm: any;
 }) => {
   
-  const { updateBasket }: any = useContext(BasketContext);
+  const {  updateFoodToBasket, basket }: any = useContext(BasketContext);
   const [quantity, setQuantity] = useState(1);
 
   const handleCount = (operation: string) => {
@@ -45,6 +46,20 @@ export const Form = ({
       if (quantity) setQuantity(quantity - 1);
     }
   };
+
+
+
+const handleSave =()=>{
+  updateFoodToBasket({
+    name,
+      price,
+      image,
+      description,
+      quantity,
+    
+  })
+}
+
 
   return (
     <Modal
@@ -62,10 +77,10 @@ export const Form = ({
         justifyContent: "center",
       }}
     >
-      <Box>
+      <Box sx={{backgroundColor:"white", borderRadius:12}}>
         <Stack sx={{ display: "flex", flexDirection: "row" }}>
-          <img src={image} alt="name" width={250} height={250} />
-          <Stack spacing={4} marginY={3} width={"300px"}>
+          <img src={image} alt="name" width={250} height={250}  />
+          <Stack spacing={4}  width={"300px"}>
             <Grid>
               <Typography>{name}</Typography>
               <Typography
@@ -100,7 +115,7 @@ export const Form = ({
             <Button
               variant="contained"
               color="success"
-              onClick={() => (updateBasket(id), handleClose())}
+              onClick={handleSave}
               sx={{
                 color: "white",
               }}

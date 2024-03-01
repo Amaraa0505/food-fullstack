@@ -1,71 +1,59 @@
 "use client";
-import { Password } from "@mui/icons-material";
-import { PropsWithChildren, createContext } from "react";
-import { useState } from "react";
 
-interface ILog {
-  name: string;
-  email: string;
-  address: string;
-  _id: string;
-}
+import axios from "axios";
+import { PropsWithChildren, createContext, useState } from "react";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 interface IUser {
   name: string;
   email: string;
-  address: string;
-  password: string;
-  rePassword?: string;
-}
-interface IUserContext {
-  user: IUser;
-  login: (name: string, password: string) => void; ///
-  signup: (
-    name: string,
-    email: string,
-    address: string,
-    password: string,
-    rePassword?: string
-  ) => void;
+  address?: string;
+  avatarUrl?: string;
 }
 
 interface IUserContext {
   user: IUser;
-  signup: (
-    name: string,
-    password: string,
-    email: string,
-    address: string,
-    rePassword?: string
-  ) => void;
+  login: (name: string, password: string) => void;
 }
 
 export const UserContext = createContext<IUserContext>({
-  user: { name: "", email: "", password: "", address: "" },
-  signup: function (): void {},
-  login: function (): void {},
-});
-
-export const UserProvider = ({ children }: PropsWithChildren) => {
-  const [user, setUser] = useState<IUser>({
+  user: {
     name: "",
     email: "",
     address: "",
-    password: "",
-    rePassword: "",
+  },
+  login: function () {},
+});
+
+export const UserProvider = ({ children }: PropsWithChildren) => {
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<IUser>({
+    name: "Test User",
+    email: "",
+    address: "",
+    avatarUrl: "",
   });
 
-  const signup = (
-    email: string,
-    password: string,
-    address: string,
-    name: string
-  ): void => {}; //////
-
-  const login = (email: string, password: string): void => {};
+  const login = async (email: string, password: string) => {
+    try {
+      console.log("Login", email, password);
+      // const { data } = await axios.post("http://localhost:8080/auth/login", {
+      //   userEmail: email,
+      //   userPassword: password,
+      // });
+      // console.log("data", data);
+      // localStorage.setItem("token", data.token);
+      // localStorage.setItem("user", JSON.stringify(data.user));
+      // setUser(data.user);
+      // setToken(data.user);
+    } catch (error) {
+      toast.error("Error");
+    }
+  };
 
   return (
-    <UserContext.Provider value={{ user, login, signup }}>
+    <UserContext.Provider value={{ user, login }}>
       {children}
     </UserContext.Provider>
   );

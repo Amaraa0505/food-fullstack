@@ -1,64 +1,101 @@
 "use client";
 
-import { Try } from "@mui/icons-material";
 import axios from "axios";
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export const BasketContext = createContext({} as object);
 
-interface IBasket {
-  foodId: string;
-  quantity: number;
-  totalPrice: number;
-}
-interface IBasketContext {
-  basketData: IBasket[];
-}
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDQ3ZmVjZGE2MGQxYjM0YmViMmExZiIsImlhdCI6MTcwOTI3OTQyNSwiZXhwIjoxNzA5MzY1ODI1fQ.3XyZtUbY75O5QfESLw7xtrNb9QB4xgLJFodObsu_Y68";
 
-export const CategoryContext = createContext<IBasketContext>(
-  {} as IBasketContext
-);
+const createReq = async (url: string, foodItem: any) => {
+  const { data } = (await axios.post(url, foodItem, {
+    headers: { Authorization: `Bearer ${token}` },
+  })) as {
+    data: any;
+  };
+  return { basket: data.basket, message: data.message };
+};
 
 export const BasketProvider = ({ children }: PropsWithChildren) => {
-  const [basketData, setBasketData] = useState([]);
-  let foodId = "";
-  const updateBasket = async (id: string) => {
-    try {
-      foodId = id;
-      const data = await axios.put(`http://localhost:8080/backet/`, {
-        foods: { foodId: foodId },
-      });
+  const [basket, setBasket] = useState<{} | null>(null);
+  const [refetch, setRefetch] = useState<boolean>(false);
 
-      toast.success("Хоолыг амжилттай сагсанд нэмлээ");
+  const addFoodToBasket = async (foodItem: any) => {
+    console.log("Food", foodItem);
+    try {
+      const { basket, message } = await createReq(
+        "http://localhost:8080/backet",
+        foodItem
+      );
+      console.log("RES", basket);
+      setBasket({ ...basket });
+      toast.success(message);
     } catch (error: any) {
-      toast.error("Хоолыг нэмэхэд алдаа гарлаа дахин оролдоно уу", error);
-      console.log("ERR CLF+++++>", error);
-    } finally {
-      foodId = "";
+      toast.error(error.response.data.message);
     }
   };
 
-  const getBasket = async () => {
+  const updateFoodToBasket = async (foodItem: any) => {
+    console.log("Food", foodItem);
     try {
-      const {
-        data: { basketData },
-      } = (await axios.get("http://localhost:8080/backet")) as {
-        data: { basketData: [] };
-      };
+      const { basket } = await createReq(
+        "http://localhost:8080/backet",
+        foodItem
+      );
+      console.log("RES", basket);
+      setBasket({ ...basket });
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
+  };
 
-      setBasketData(basketData);
-    } catch (error) {
-      alert("ERR");
+  const deleteFoodFromBasket = async (foodId: string) => {
+    console.log("Food", foodId);
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:8080/backet/${foodId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("RES", data?.basket);
+      // setBasket({ ...data?.basket });
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const getFoodBasket = async () => {
+    try {
+      const { data } = (await axios.get("http://localhost:8080/backet", {
+        headers: { Authorization: `Bearer ${token}` },
+      })) as {
+        data: any;
+      };
+      console.log("RES", data);
+      setBasket({ ...data?.basket });
+      // toast.success(data.message);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
     }
   };
 
   useEffect(() => {
-    getBasket();
-  });
+    getFoodBasket();
+  }, []);
 
   return (
-    <BasketContext.Provider value={{ basketData, updateBasket }}>
+    <BasketContext.Provider
+      value={{
+        basket,
+        addFoodToBasket,
+        updateFoodToBasket,
+        deleteFoodFromBasket,
+        
+      }}
+    >
       {children}
     </BasketContext.Provider>
   );

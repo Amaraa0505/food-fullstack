@@ -95,7 +95,8 @@ const LoginPage = () => {
       </Stack>
 
       <Stack>
-        <Button label="Нэвтрэх" onClick={formik.handleSubmit} />
+        <Button label="Нэвтрэх" onClick={formik.handleSubmit} 
+        />
 
         <Typography
           sx={{
