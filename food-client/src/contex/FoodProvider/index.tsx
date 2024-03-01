@@ -8,11 +8,12 @@ import React, {
 import axios from "axios";
 import { toast } from "react-toastify";
 
-interface IFood {
+export interface IFood {
   _id: string;
   name: string;
   desc: string;
   price: number;
+  description: string;
   image: string;
   discountPrice?: number;
   category: object;

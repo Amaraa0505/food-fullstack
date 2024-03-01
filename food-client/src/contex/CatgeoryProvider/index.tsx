@@ -15,6 +15,8 @@ interface ICategory {
 
 interface ICategoryContext {
   categories: ICategory[];
+  chosenCategory: string;
+  HandleClickCategory: (id: string) => void;
 }
 
 export const CategoryContext = createContext<ICategoryContext>(
@@ -23,6 +25,9 @@ export const CategoryContext = createContext<ICategoryContext>(
 
 export const CategoryProvider = ({ children }: PropsWithChildren) => {
   const [categories, setCategories] = useState([]);
+  const [chosenCategory, setChosenCategory] = useState(
+    "65d9ad4620e0a4083c924194"
+  );
 
   const getCategory = async () => {
     try {
@@ -37,13 +42,18 @@ export const CategoryProvider = ({ children }: PropsWithChildren) => {
       alert("Get Error - " + error.message);
     }
   };
+  const HandleClickCategory = (id: string) => {
+    setChosenCategory(id);
+  };
 
   useEffect(() => {
     getCategory();
   }, []);
 
   return (
-    <CategoryContext.Provider value={{ categories }}>
+    <CategoryContext.Provider
+      value={{ categories, HandleClickCategory, chosenCategory }}
+    >
       {children}
     </CategoryContext.Provider>
   );

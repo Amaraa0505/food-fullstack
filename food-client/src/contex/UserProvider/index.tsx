@@ -3,6 +3,13 @@ import { Password } from "@mui/icons-material";
 import { PropsWithChildren, createContext } from "react";
 import { useState } from "react";
 
+interface ILog {
+  name: string;
+  email: string;
+  address: string;
+  _id: string;
+}
+
 interface IUser {
   name: string;
   email: string;
@@ -13,6 +20,13 @@ interface IUser {
 interface IUserContext {
   user: IUser;
   login: (name: string, password: string) => void; ///
+  signup: (
+    name: string,
+    email: string,
+    address: string,
+    password: string,
+    rePassword?: string
+  ) => void;
 }
 
 interface IUserContext {

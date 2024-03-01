@@ -6,7 +6,8 @@ import FoodCart from "../components/Cards";
 export default function Home() {
   return (
     <main>
-      <FoodCart />
+      {" "}
+      <FoodCart />{" "}
     </main>
   );
 }

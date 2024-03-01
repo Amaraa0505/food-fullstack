@@ -4,7 +4,7 @@ import { Box, Drawer, Typography, Grid, Button, Stack } from "@mui/material";
 import { useState, useEffect } from "react";
 import { FoodContext } from "@/contex/FoodProvider";
 import { BasketContext } from "@/contex/BasketProvider";
-import BasketCard from "../BasketCard";
+import { BasketCardOne } from "../BasketCardOne";
 
 interface CartItem {
   id: number;
@@ -18,8 +18,7 @@ interface Props {
 }
 
 const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
-  const { foods } = useContext(FoodContext);
-  const { basketData }: any = useContext(BasketContext);
+  const { foods }: any = useContext(BasketContext);
   const [quantity, setQuantity] = useState(1);
 
   const handleIncreaseQuantity = () => {
@@ -40,15 +39,15 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
       sx={{ display: "flex", flexDirection: "row", padding: 10, ml: 20 }}
     >
       <Grid>
-        {basketData?.mao((e: any) => (
-          <Box>
-            <BasketCard
+        {foods?.map((e: any) => (
+          <Box sx={{ marginBottom: 60 }} key={i}>
+            <BasketCardOne
               name={e?.foodId?.name}
               description={e?.foodId?.description}
               price={e?.foodId?.price}
               image={e?.foodId?.image}
+              foodCount={e?.count}
               id={e?.foodId?._id}
-              foodQuantity={e?.quantity}
             />
           </Box>
         ))}

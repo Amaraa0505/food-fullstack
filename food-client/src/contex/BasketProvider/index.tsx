@@ -22,6 +22,22 @@ export const CategoryContext = createContext<IBasketContext>(
 
 export const BasketProvider = ({ children }: PropsWithChildren) => {
   const [basketData, setBasketData] = useState([]);
+  let foodId = "";
+  const updateBasket = async (id: string) => {
+    try {
+      foodId = id;
+      const data = await axios.put(`http://localhost:8080/backet/`, {
+        foods: { foodId: foodId },
+      });
+
+      toast.success("Хоолыг амжилттай сагсанд нэмлээ");
+    } catch (error: any) {
+      toast.error("Хоолыг нэмэхэд алдаа гарлаа дахин оролдоно уу", error);
+      console.log("ERR CLF+++++>", error);
+    } finally {
+      foodId = "";
+    }
+  };
 
   const getBasket = async () => {
     try {
@@ -42,7 +58,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
   });
 
   return (
-    <BasketContext.Provider value={{ basketData }}>
+    <BasketContext.Provider value={{ basketData, updateBasket }}>
       {children}
     </BasketContext.Provider>
   );

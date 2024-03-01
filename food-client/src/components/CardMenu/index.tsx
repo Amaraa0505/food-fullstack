@@ -1,47 +1,46 @@
 "use client";
 
 import React, { useContext } from "react";
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography, Button } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import FoodCard from "../FoodCard";
+import { FoodCard } from "../FoodCard";
 import CategoryCard from "../CategoryCard";
 import { FoodContext } from "@/contex/FoodProvider";
 import { CategoryContext } from "@/contex/CatgeoryProvider";
 import { BasketContext } from "@/contex/BasketProvider";
-import BasketCard from "../BasketCard";
 
 const CardMenu = () => {
-  const[ baskets, setBaskets]=useState([])
+  const [baskets, setBaskets] = useState([]);
   const [category, setCategory] = useState([]);
-const {}=useContext(BasketContext)
+  const {} = useContext(BasketContext);
   const { getFood, foods } = useContext(FoodContext);
-  const { categories } = useContext(CategoryContext);
+  const { categories, chosenCategory, HandleClickCategory } =
+    useContext(CategoryContext);
 
   return (
     <Box sx={{ padding: 7, display: "flex", flexDirection: "column", gap: 6 }}>
       <Grid container spacing={3}>
-        {categories?.map((category: any) => (
-          <CategoryCard key={category._id} category={category} />
-        ))}
-      </Grid>
-      <Grid container spacing={3}>
-        {foods.map((food: any) => (
-          <Grid
-            xs={12}
-            sm={6}
-            md={3}
-            sx={{ display: "flex", justifyContent: "center", gap: 3 }}
-          >
-            <FoodCard key={food._id} food={food} category={category} />
+        {categories.map((e) => (
+          <Grid item gridRow={6}>
+            <Button
+              variant="contained"
+              // color={e._id === chosenCategory ? "blue" : "blue"}
+              sx={{ borderRadius: 6, width: 185 }}
+              onClick={() => HandleClickCategory(e._id)}
+            >
+              {e.name}
+            </Button>
           </Grid>
         ))}
       </Grid>
-      {/* <Grid>
-        {baskets.map?((basket:any)=>(
-          <BasketCard/>
-        ))}
-      </Grid> */}
+      <Grid container spacing={3}>
+        {foods
+          ?.filter((food: any) => food.category._id === chosenCategory)
+          .map((food: any) => (
+            <FoodCard {...food} />
+          ))}
+      </Grid>
     </Box>
   );
 };

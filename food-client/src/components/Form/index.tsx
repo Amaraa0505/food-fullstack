@@ -11,11 +11,30 @@ import {
   Box,
   Backdrop,
   Stack,
+  Grid,
 } from "@mui/material";
 import axios from "axios";
 
-export const Form = ({ open, closeForm, food }: any) => {
-  // const { addFoodToBasket, baskets }: any = useContext(BasketContext);
+export const Form = ({
+  id,
+  open,
+  handleClose,
+  name,
+  price,
+  image,
+  description,
+  closeForm,
+}: {
+  id: string;
+  open: boolean;
+  handleClose: () => void;
+  name: string;
+  price: string;
+  image: string;
+  description: string;
+  closeForm: any;
+}) => {
+  const { updateBasket }: any = useContext(BasketContext);
   const [quantity, setQuantity] = useState(1);
 
   const handleCount = (operation: string) => {
@@ -26,134 +45,68 @@ export const Form = ({ open, closeForm, food }: any) => {
     }
   };
 
-  const sentFood = () => {
-    // addFoodToBasket({
-    foodId: food._id,
-      // quantity: quantity,
-      // });
-      closeForm();
-  };
-
   return (
     <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
       open={open}
-      onClose={closeForm}
-      closeAfterTransition
-      slots={{ backdrop: Backdrop }}
-      slotProps={{
-        backdrop: {
-          timeout: 500,
-        },
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "white",
+        height: 500,
+        width: 600,
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          bgcolor: "background.paper",
-          boxShadow: 24,
-          pt: 2,
-          px: 4,
-          pb: 3,
-          borderRadius: 3,
-          height: 350,
-        }}
-        display={"flex"}
-      >
-        <Button
-          onClick={() => {
-            console.log("CLOSE", closeForm);
-            closeForm();
-          }}
-        >
-          Close
-        </Button>
-        <Stack
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            padding: 3,
-          }}
-        >
-          <img style={{ height: 250 }} src={food.image}></img>
-        </Stack>
-        <Stack sx={{ padding: 2 }}>
-          <Stack>
-            <Typography fontSize={20} fontWeight={600}>
-              {food.name}
-            </Typography>
-            <Typography color={"#18BA51"} fontSize={18} fontWeight={550}>
-              {food.price}
-            </Typography>
-            <Typography sx={{ mt: 1, fontSize: 18, fontWeight: 540 }}>
-              Орц
-            </Typography>
-            <Typography
-              width={100}
-              sx={{
-                backgroundColor: "#f5f5f5",
-                borderRadius: 3,
-                width: 300,
-                my: 2,
-                padding: 2,
-              }}
-            >
-              {food.description}
-            </Typography>
-            <Typography sx={{ fontWeight: 540, fontSize: 18 }}>Тоо</Typography>
+      <Box>
+        <Stack sx={{ display: "flex", flexDirection: "row" }}>
+          <img src={image} alt="name" width={250} height={250} />
+          <Stack spacing={4} marginY={3} width={"300px"}>
+            <Grid>
+              <Typography>{name}</Typography>
+              <Typography
+                id="modal-modal-title"
+                color="#18BA51"
+                variant="h5"
+                component="h2"
+              >
+                {price}₮
+              </Typography>
+            </Grid>
+
+            <Grid>
+              <Typography id="modal-modal-description" variant="h5">
+                Орц
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ padding: 3, borderRadius: "3px" }}
+              >
+                {description}
+              </Typography>
+            </Grid>
           </Stack>
-
-          <Stack
-            display={"flex"}
-            flexDirection={"row"}
-            alignItems={"end"}
-            height={"full"}
-            justifyContent={"space-between"}
-            padding={4}
-          >
+          <Grid display={"flex"} flexDirection={"column"} gap={6}>
+            <Typography variant="h6">Тоо</Typography>
+            <Box sx={{ display: "flex" }}>
+              <Button sx={{ backgroundColor: "purple", width: 30 }}>-</Button>
+              <Typography>1</Typography>
+              <Button sx={{ backgroundColor: "purple", width: 30 }}>+</Button>
+            </Box>
             <Button
+              variant="contained"
+              color="success"
+              onClick={() => (updateBasket(id), handleClose())}
               sx={{
-                borderRadius: 4,
-                bgcolor: "#18BA51",
                 color: "white",
-                fontWeight: 550,
               }}
-              onClick={() => handleCount("min")}
             >
-              -
+              Сагслах
             </Button>
-
-            <Typography sx={{ font: "revert-layer" }}>{quantity}</Typography>
-
-            <Button
-              sx={{
-                bgcolor: "#18BA51",
-                borderRadius: 4,
-                color: "white",
-                fontWeight: 550,
-              }}
-              onClick={() => handleCount("add")}
-            >
-              +
-            </Button>
-          </Stack>
-          <Button
-            sx={{
-              backgroundColor: "#18BA51",
-              width: 300,
-              color: "white",
-              mb: 2,
-              fontWeight: 550,
-            }}
-            onClick={() => sentFood()}
-          >
-            {" "}
-            Сагслах
-          </Button>
+          </Grid>
         </Stack>
       </Box>
     </Modal>

@@ -13,6 +13,7 @@ const Cards = () => {
       <HomeHeader />
       <BigMenu />
       <CardMenu />
+      //{" "}
     </Grid>
   );
 };
