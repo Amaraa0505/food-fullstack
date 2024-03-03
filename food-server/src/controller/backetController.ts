@@ -2,6 +2,7 @@ import { NextFunction, Response } from "express";
 import Basket from "../model/backet";
 import { IReq } from "../utils/interface";
 import MyError from "../utils/myError";
+import { rawListeners } from "process";
 
 export const addToBasketByUserId = async (
   req: IReq,
@@ -36,19 +37,21 @@ export const addToBasketByUserId = async (
 
       if (findIndex !== -1) {
         findBasket.foods[findIndex].qty = Number(req.body.quantity);
-        findBasket.totalPrice = Number(req.body.totalPrice);
+
+        findBasket.totalPrice =
+          findBasket.totalPrice! + Number(req.body.totalPrice);
       } else {
-        findBasket.foods.push(req.body.foodId);
-        findBasket.totalPrice = Number(req.body.totalPrice);
+        findBasket.foods.push({
+          food: req.body.foodId,
+          qty: req.body.quantity,
+        });
+        findBasket.totalPrice =
+          findBasket.totalPrice! + Number(req.body.totalPrice);
       }
 
       const savedBasket = await (
         await findBasket.save()
       ).populate("foods.food");
-
-      // const savedBasket = await (
-      //   await findBasket.save()
-      // ).populate("foods.food");
 
       console.log("ChangedFoods", savedBasket);
 
@@ -61,6 +64,8 @@ export const addToBasketByUserId = async (
     next(error);
   }
 };
+
+// foods = [{ food: "123", qty: 10 }, null].map((el) => null.food);
 
 export const getFromBasketByUser = async (
   req: IReq,

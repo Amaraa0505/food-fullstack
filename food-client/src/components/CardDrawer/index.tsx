@@ -18,7 +18,8 @@ interface Props {
 }
 
 const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
-  const { foods }: any = useContext(BasketContext);
+  const { basket }: any = useContext(BasketContext);
+  console.log("basketb", basket);
   const [quantity, setQuantity] = useState(1);
 
   const handleIncreaseQuantity = () => {
@@ -36,49 +37,29 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
       anchor="right"
       open={isCartOpen}
       onClose={handleCartClose}
-      sx={{ display: "flex", flexDirection: "row", padding: 10, ml: 20 }}
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        // padding: 10,
+        ml: 20,
+        // width: 500,
+      }}
     >
       <Grid>
-        {foods?.map((e: any) => (
-          <Box sx={{ marginBottom: 60 }} key={i}>
+        {basket?.foods?.map((e: any) => (
+          <Box sx={{ marginBottom: 60 }}>
             <BasketCardOne
-              name={e?.foodId?.name}
-              description={e?.foodId?.description}
-              price={e?.foodId?.price}
-              image={e?.foodId?.image}
-              foodCount={e?.count}
-              id={e?.foodId?._id}
+              name={e?.food?.name}
+              description={e?.food?.description}
+              price={e?.food?.price}
+              image={e?.food.image}
+              basketCount={e?.count}
+              id={e?.food?._id}
             />
           </Box>
         ))}
       </Grid>
       <Box sx={{ display: "flex", gap: 3 }}>
-        <Button
-          sx={{
-            borderRadius: 4,
-            bgcolor: "#18BA51",
-            color: "white",
-            fontWeight: 550,
-          }}
-          onClick={handleDecreaseQuantity}
-        >
-          -
-        </Button>
-
-        <Typography sx={{ font: "revert-layer" }}>{quantity}</Typography>
-
-        <Button
-          sx={{
-            bgcolor: "#18BA51",
-            borderRadius: 4,
-            color: "white",
-            fontWeight: 550,
-          }}
-          onClick={handleIncreaseQuantity}
-        >
-          +
-        </Button>
-
         <Button
           sx={{
             backgroundColor: "#18BA51",

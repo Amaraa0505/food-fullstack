@@ -1,11 +1,8 @@
 "use client";
-
 import React, { useContext } from "react";
 import { Box, Grid, Stack, Typography, Button } from "@mui/material";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { FoodCard } from "../FoodCard";
-import CategoryCard from "../CategoryCard";
 import { FoodContext } from "@/contex/FoodProvider";
 import { CategoryContext } from "@/contex/CatgeoryProvider";
 import { BasketContext } from "@/contex/BasketProvider";

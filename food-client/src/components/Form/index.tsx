@@ -35,8 +35,8 @@ export const Form = ({
   description: string;
   closeForm: any;
 }) => {
-  
-  const {  updateFoodToBasket, basket }: any = useContext(BasketContext);
+  const { updateFoodToBasket, basket, addFoodToBasket, getFoodBasket }: any =
+    useContext(BasketContext);
   const [quantity, setQuantity] = useState(1);
 
   const handleCount = (operation: string) => {
@@ -47,19 +47,13 @@ export const Form = ({
     }
   };
 
-
-
-const handleSave =()=>{
-  updateFoodToBasket({
-    name,
-      price,
-      image,
-      description,
+  const handleSave = () => {
+    addFoodToBasket({
+      foodId: "65d9b5af20e0a4083c9241aa",
       quantity,
-    
-  })
-}
-
+      totalPrice: quantity * Number(price),
+    });
+  };
 
   return (
     <Modal
@@ -77,10 +71,10 @@ const handleSave =()=>{
         justifyContent: "center",
       }}
     >
-      <Box sx={{backgroundColor:"white", borderRadius:12}}>
+      <Box sx={{ backgroundColor: "white", borderRadius: 12 }}>
         <Stack sx={{ display: "flex", flexDirection: "row" }}>
-          <img src={image} alt="name" width={250} height={250}  />
-          <Stack spacing={4}  width={"300px"}>
+          <img src={image} alt="name" width={250} height={250} />
+          <Stack spacing={4} width={"300px"}>
             <Grid>
               <Typography>{name}</Typography>
               <Typography

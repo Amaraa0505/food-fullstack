@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 export const BasketContext = createContext({} as object);
 
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDQ3ZmVjZGE2MGQxYjM0YmViMmExZiIsImlhdCI6MTcwOTI3OTQyNSwiZXhwIjoxNzA5MzY1ODI1fQ.3XyZtUbY75O5QfESLw7xtrNb9QB4xgLJFodObsu_Y68";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDQ3ZmVjZGE2MGQxYjM0YmViMmExZiIsImlhdCI6MTcwOTQ1MTA5MywiZXhwIjoxNzA5NTM3NDkzfQ.Hxf5E605IOlvOYZueIPeOcQmo4PwWtWTDejjEUeMReo";
 
 const createReq = async (url: string, foodItem: any) => {
   const { data } = (await axios.post(url, foodItem, {
@@ -23,13 +23,13 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
   const [refetch, setRefetch] = useState<boolean>(false);
 
   const addFoodToBasket = async (foodItem: any) => {
-    console.log("Food", foodItem);
+    console.log("Food-Add-2", foodItem);
     try {
       const { basket, message } = await createReq(
         "http://localhost:8080/backet",
         foodItem
       );
-      console.log("RES", basket);
+      console.log("RES-add", basket);
       setBasket({ ...basket });
       toast.success(message);
     } catch (error: any) {
@@ -38,7 +38,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
   };
 
   const updateFoodToBasket = async (foodItem: any) => {
-    console.log("Food", foodItem);
+    console.log("Foodup", foodItem);
     try {
       const { basket } = await createReq(
         "http://localhost:8080/backet",
@@ -52,7 +52,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
   };
 
   const deleteFoodFromBasket = async (foodId: string) => {
-    console.log("Food", foodId);
+    console.log("Fooddel", foodId);
     try {
       const { data } = await axios.delete(
         `http://localhost:8080/backet/${foodId}`,
@@ -74,7 +74,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
       })) as {
         data: any;
       };
-      console.log("RES", data);
+      console.log("RESs", data);
       setBasket({ ...data?.basket });
       // toast.success(data.message);
     } catch (error: any) {
@@ -93,7 +93,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
         addFoodToBasket,
         updateFoodToBasket,
         deleteFoodFromBasket,
-        
+        getFoodBasket,
       }}
     >
       {children}

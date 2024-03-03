@@ -24,20 +24,20 @@ export const BasketCardOne = ({
   name,
   price,
   description,
-  foodCount,
+  basketCount,
   image,
 }: {
   id: string;
   name: string;
   price: string;
   description: string;
-  foodCount: string;
+  basketCount: string;
   image: string;
 }) => {
-  const { updateBasket }: any = useContext(BasketContext);
+  const { updateFoodToBasket }: any = useContext(BasketContext);
 
   return (
-    <Grid sx={{ border: 1 }} container>
+    <Grid sx={{ border: 1, width: 500 }} container>
       <Box sx={style}>
         <img src={image} alt="pic" width={245} height={150} />
         <Stack>
@@ -76,8 +76,8 @@ export const BasketCardOne = ({
               >
                 -
               </Button>
-              <Typography marginX={5} fontSize={20}>
-                {foodCount}
+              <Typography marginX={5} fontSize={20} sx={{ color: "black" }}>
+                {basketCount}
               </Typography>
               <Button
                 sx={{ background: "#18BA51" }}
