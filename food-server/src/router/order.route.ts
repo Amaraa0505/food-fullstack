@@ -1,9 +1,9 @@
-import {Router} from "express"
-import {createOrder} from "../controller/orderController"
-import { authenticate, authorize } from "../middleware/auth";
+import { Router } from "express";
+import { createOrder } from "../controller/orderController";
+import { authenticate } from "../middleware/auth";
 
-const orderRoute = Router()
+const router = Router();
 
-orderRoute.route("/").post(authenticate, createOrder)
+router.route("/").post(authenticate, createOrder);
 
-export default orderRoute
+export default router;

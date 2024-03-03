@@ -18,7 +18,7 @@ interface Props {
 }
 
 const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
-  const { basket }: any = useContext(BasketContext);
+  const { basket, getFoodBasket}: any = useContext(BasketContext);
   console.log("basketb", basket);
   const [quantity, setQuantity] = useState(1);
 
@@ -40,26 +40,33 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
       sx={{
         display: "flex",
         flexDirection: "row",
-        // padding: 10,
-        ml: 20,
+        // padding: 20,
+        // ml: 20,
         // width: 500,
       }}
     >
-      <Grid>
+      <Box sx={{padding:5}}>
+       <Typography sx={{fontWeight:18,fontSize:18, }}>Сагсны мэдээлэл</Typography>
+      <Grid >
         {basket?.foods?.map((e: any) => (
           <Box sx={{ marginBottom: 60 }}>
             <BasketCardOne
               name={e?.food?.name}
-              description={e?.food?.description}
+              description={e?.food?.descriptsion}
               price={e?.food?.price}
               image={e?.food.image}
-              basketCount={e?.count}
+              basketCount={e?.food?.count}
               id={e?.food?._id}
+              totalPrice={e?.basket?.totalPrice}
             />
           </Box>
         ))}
       </Grid>
       <Box sx={{ display: "flex", gap: 3 }}>
+        <Box>
+        <Typography>Нийт дүн:</Typography>
+        <Stack></Stack>
+        </Box>
         <Button
           sx={{
             backgroundColor: "#18BA51",
@@ -72,6 +79,7 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
           {" "}
           Захиалах
         </Button>
+      </Box>
       </Box>
     </Drawer>
   );

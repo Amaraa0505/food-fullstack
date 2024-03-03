@@ -26,6 +26,7 @@ export const BasketCardOne = ({
   description,
   basketCount,
   image,
+  totalPrice
 }: {
   id: string;
   name: string;
@@ -33,12 +34,23 @@ export const BasketCardOne = ({
   description: string;
   basketCount: string;
   image: string;
+  totalPrice:number
 }) => {
-  const { updateFoodToBasket }: any = useContext(BasketContext);
+  const { updateFoodToBasket, deleteFoodFromBasket }: any = useContext(BasketContext);
+
+
+
+const deleteFood=()=>{
+deleteFoodFromBasket({
+  id:""
+})
+}
+
 
   return (
-    <Grid sx={{ border: 1, width: 500 }} container>
-      <Box sx={style}>
+    <Grid sx={{  width: 500 }} container>
+     
+      <Box sx={style} >
         <img src={image} alt="pic" width={245} height={150} />
         <Stack>
           <Grid item>
@@ -90,7 +102,7 @@ export const BasketCardOne = ({
         </Stack>
         <Grid item>
           <IconButton
-          //  onClick={() => deleteBasketItem(id)}
+           onClick={deleteFood}
           >
             X
           </IconButton>

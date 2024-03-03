@@ -5,6 +5,7 @@ import React from "react";
 import LoginForm from "../LoginForm";
 import customer from "@/app/(auth)/customer/page";
 import CartDrawer from "../../components/CardDrawer";
+import order from "@/app/(auth)/order/order";
 
 import {
   Grid,
@@ -67,6 +68,11 @@ export const Header = () => {
       <Stack direction={"row"} alignItems={"center"}>
         <Grid display={"flex"} gap={3}></Grid>
         <Grid display={"flex"} gap={3}>
+          {/* <Link 
+          style={{color:"black", cursor:"pointer", textDecoration:"none"}} 
+          href={"/order"}>
+            Миний Захиалга
+          </Link> */}
           <Link
             style={{
               cursor: "pointer",

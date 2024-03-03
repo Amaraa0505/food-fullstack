@@ -3,53 +3,34 @@ import { IReq } from "../utils/interface";
 import MyError from "../utils/myError";
 import User from "../model/user";
 
-
-const createOrder = async (req:IReq, res:Response, next:NextFunction) => {
+export const createOrder = async (
+  req: IReq,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const { userId } = req.params; 
-    const { orderDetails } = req.body; 
-
-    
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-
     const newOrder = {
-      orderNo: generateOrderNumber(), 
+      orderNo: "#" + Math.floor(Math.random() * 1000000),
       payment: {
-        paymentAmount: orderDetails.paymentAmount,
-        status: 'unpaid', 
-        createdAt: new Date(),
+        paymentAmount: 90000,
       },
       address: {
-        khoroo: orderDetails.khoroo,
-        duureg: orderDetails.duureg,
-        buildingNo: orderDetails.buildingNo,
-        info: orderDetails.info,
-      },
-      delivery: {
-        status: 'Pending', 
+        khoroo: "10 khoroo",
+        duureg: "BZD",
+        buildingNo: "1009",
+        info: "near to school",
       },
     };
+    const findUser = await User.findById(req.user._id);
 
+    if (!findUser) {
+      throw new MyError(`Бүртгэлгүй хэрэглэгч байна.`, 400);
+    }
+    findUser.orders.push(newOrder);
+    await findUser.save();
 
-    user.orders.push(newOrder);
-
-
-    await user.save();
-
-    return res.status(201).json({ message: 'Order created successfully', order: newOrder });
+    res.status(200).json({ message: "Захиалга амжилттай үүслээ." });
   } catch (error) {
-    console.error('Error creating order:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    next(error);
   }
 };
-
-const generateOrderNumber = () => {
-
-  return 'ORD' + Date.now().toString();
-};
-
-export { createOrder };
