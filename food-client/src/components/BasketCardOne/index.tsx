@@ -70,7 +70,7 @@ deleteFoodFromBasket({
           <Grid item>
             <Typography
               variant="body2"
-              sx={{ background: grey[100], padding: 1, borderRadius: "3px" }}
+              sx={{ background: grey[100], padding: 1, borderRadius: "3px", my:2 }}
             >
               {description}
             </Typography>
@@ -84,7 +84,7 @@ deleteFoodFromBasket({
             >
               <Button
                 sx={{ background: "#18BA51" }}
-                // onClick={() => (minusCount(), updateBasket(id))}
+              
               >
                 -
               </Button>
@@ -93,7 +93,7 @@ deleteFoodFromBasket({
               </Typography>
               <Button
                 sx={{ background: "#18BA51" }}
-                // onClick={() => (addCount(), updateBasket(id))}
+               
               >
                 +
               </Button>

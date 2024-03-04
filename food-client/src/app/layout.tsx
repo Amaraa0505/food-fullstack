@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { FoodProvider } from "@/contex/FoodProvider";
 import { CategoryContext, CategoryProvider } from "@/contex/CatgeoryProvider";
 import {BasketProvider} from "@/contex/BasketProvider";
+// import { OrderProvider } from "@/contex/OrderProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,10 +23,12 @@ export default function RootLayout({
             <CategoryProvider>
               <FoodProvider>
                 <BasketProvider>
+                  {/* <OrderProvider> */}
                 <Header />
                 {children}
                 <Footer />
                 <ToastContainer />
+                {/* </OrderProvider> */}
                 </BasketProvider>
               </FoodProvider>
             </CategoryProvider>

@@ -12,7 +12,7 @@ interface ICategory {
   _id: string;
   name: string;
 }
-
+  
 interface ICategoryContext {
   categories: ICategory[];
   chosenCategory: string;
