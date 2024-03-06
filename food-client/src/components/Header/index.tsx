@@ -5,7 +5,7 @@ import React from "react";
 import LoginForm from "../LoginForm";
 import customer from "@/app/(auth)/customer/page";
 import CartDrawer from "../../components/CardDrawer";
-import order from "@/app/(auth)/order/order";
+import order from "@/app/(auth)/order/page";
 
 import {
   Grid,

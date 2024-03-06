@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 export const BasketContext = createContext({} as object);
 
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDQ3ZmVjZGE2MGQxYjM0YmViMmExZiIsImlhdCI6MTcwOTU1NDE1NiwiZXhwIjoxNzA5NjQwNTU2fQ.Q7utKbLTLIw9zgmdnQ2JJH36h7Wqp7i3g9ZmQEF1rQg";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDQ3ZmVjZGE2MGQxYjM0YmViMmExZiIsImlhdCI6MTcwOTcxNjc4MiwiZXhwIjoxNzA5ODAzMTgyfQ.VvHcb9lppIgchSXZtlBwV5H9m46QPau1h1xYIaWHKOQ";
 
 const createReq = async (url: string, foodItem: any) => {
   const { data } = (await axios.post(url, foodItem, {

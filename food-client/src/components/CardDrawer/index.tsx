@@ -1,12 +1,13 @@
 // CardDrawer.js
 import React, { useContext } from "react";
-import { Box, Drawer, Typography, Grid, Button, Stack } from "@mui/material";
+import { Box, Drawer, Typography, Grid, Button, Stack, Link } from "@mui/material";
 import { useState, useEffect } from "react";
 import { FoodContext } from "@/contex/FoodProvider";
 import { BasketContext } from "@/contex/BasketProvider";
 import { BasketCardOne } from "../BasketCardOne";
 import axios from "axios";
 import { UserContext } from "@/contex/UserProvider";
+import order from "@/app/(auth)/order/page";
 
 interface CartItem {
   id: number;
@@ -20,35 +21,14 @@ interface Props {
 }
 
 const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
-  // const [order, setOrder]=useState([])
-
-  // const createOrder=async()=>{
-  //   try {
-  //     const orderData=new FormData()
-  //     orderData.set("food",food)
-  //     orderData.set("qty", quantity)
-  //     orderData.set("totalPrice.set", totalPrice)
-  //     orderData.set("khoroo", khoroo)
-  //     orderData.set("duureg", duureg)
-  //     orderData.set("buildingNo", buildingNo)
-
-  //     const token = localStorage.getItem("token");
-
-  //       await axios.post("http://localhost:8080/order", orderData, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-
-  //   } catch (error:any) {
-  //     alert("Add Error - " + error.message);
-  //   }
-  // }
-
+  
   const { basket, getFoodBasket }: any = useContext(BasketContext);
   const { user, setUser }: any = useContext(UserContext);
   console.log("basketb", basket);
   const [quantity, setQuantity] = useState(1);
+  const [open, setOpen]=React.useState(false)
+  const handleOpen=()=>setOpen(true)
+  const handleClose=()=>setOpen(false)
 
   const handleIncreaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -110,7 +90,7 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
             {basket?.totalPrice}
           </Stack>
 
-          <Button
+          <Link
             sx={{
               backgroundColor: "#18BA51",
               width: 100,
@@ -122,10 +102,12 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
             //   const {data: orders} = await  axios.post(;asf;sfaf);
             //   setUser({...user, orders});
             // }}
+            href={"/order"}
           >
             {" "}
             Захиалах
-          </Button>
+            
+          </Link>
         </Box>
       </Box>
     </Drawer>
@@ -133,3 +115,29 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
 };
 
 export default CartDrawer;
+
+
+// const [order, setOrder]=useState([])
+
+  // const createOrder=async()=>{
+  //   try {
+  //     const orderData=new FormData()
+  //     orderData.set("food",food)
+  //     orderData.set("qty", quantity)
+  //     orderData.set("totalPrice.set", totalPrice)
+  //     orderData.set("khoroo", khoroo)
+  //     orderData.set("duureg", duureg)
+  //     orderData.set("buildingNo", buildingNo)
+
+  //     const token = localStorage.getItem("token");
+
+  //       await axios.post("http://localhost:8080/order", orderData, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+
+  //   } catch (error:any) {
+  //     alert("Add Error - " + error.message);
+  //   }
+  // }

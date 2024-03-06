@@ -10,20 +10,18 @@ export const createOrder = async (
   next: NextFunction
 ) => {
   try {
+
+    const findUser = await User.findById(req.user._id);
+    const findBasket = await Basket.findOne({user: req.user._id})
     console.log("working", )
     const newOrder = {
       orderNo: "#" + Math.floor(Math.random() * 1000000),
       payment: {
-        paymentAmount: 0,
+        paymentAmount: findBasket?.totalPrice,
       },
-      address: {
-        khoroo: "",
-        duureg: "",
-        buildingNo: "",
-      },
+      address: req.body.address
     };
    
-    const findUser = await User.findById(req.user._id);
     console.log("userr", newOrder)
     if (!findUser) {
       throw new MyError(`Бүртгэлгүй хэрэглэгч байна.`, 400);
@@ -55,3 +53,5 @@ export const getAllOrder = async (
     next(error);
   }
 };
+
+
