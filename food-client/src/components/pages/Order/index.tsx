@@ -48,7 +48,7 @@ const Order = () => {
     }
   };
   return (
-    <Box sx={{ my: 15, display: "flex", justifyContent: "space-around" }}>
+    <Box sx={{ my: 15, display: "flex", justifyContent: "space-around", padding:5 }}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <Typography>Xаягын мэдээлэл оруулах</Typography>
         <FormControl sx={{ width: 400 }}>
@@ -99,12 +99,15 @@ const Order = () => {
         </Box>
       </Box>
       <Box>
-        <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
+        <Typography sx={{ fontSize: 20, fontWeight: 600, ml:10 }}>
           Захиалга баталгаажуулах
         </Typography>
+       
         <Grid>
           {basket?.foods?.map((e: any) => (
+            
             <Box sx={{ marginBottom: 60 }}>
+              
               <OrderFood
                 name={e?.food?.name}
                 description={e?.food?.description}
@@ -114,10 +117,17 @@ const Order = () => {
                 id={e?.food?._id}
                 totalPrice={e?.basket?.totalPrice}
               />
+             
             </Box>
+            
           ))}
         </Grid>
-        <Button sx={{ color: "black" }} onClick={createOrder}>
+       
+        <Box sx={{display:"flex", gap:10, ml:10}}>
+          <Typography sx={{fontWeight:800}}>Нийт дүн:</Typography>
+          <Typography>{basket?.totalPrice}</Typography>
+        </Box>
+        <Button sx={{ color: "black", fontWeight:800, ml:8 }} onClick={createOrder}>
           Захиалах
         </Button>
       </Box>

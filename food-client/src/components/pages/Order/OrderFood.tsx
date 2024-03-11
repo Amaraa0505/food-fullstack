@@ -41,9 +41,7 @@ export const OrderFood = ({
 
 
 const deleteFood=()=>{
-deleteFoodFromBasket({
-  id:""
-})
+deleteFoodFromBasket(id)
 }
 
 
@@ -54,9 +52,16 @@ deleteFoodFromBasket({
         <img src={image} alt="pic" width={245} height={150} />
         <Stack>
           <Grid item>
+            <Box sx={{display:"flex", alignItems:"center", gap:20}}>
             <Typography sx={{ fontWeight: 700 }} variant="h5">
               {name}
             </Typography>
+            <IconButton
+           onClick={deleteFood}
+          >
+            X
+          </IconButton>
+          </Box>
             <Typography
               sx={{ fontWeight: 900, fontSize: 20 }}
               color="#18BA51"
@@ -75,10 +80,11 @@ deleteFoodFromBasket({
               {description}
             </Typography>
           </Grid>
-         
+          
         </Stack>
-      
+        
       </Box>
+     
     </Grid>
   );
 };

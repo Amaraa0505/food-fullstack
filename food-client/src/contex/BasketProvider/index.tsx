@@ -61,7 +61,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("RES", data?.basket);
+      console.log("RES-deleteFood", data?.basket);
       setBasket({ ...data?.basket });
     } catch (error: any) {
       toast.error(error.response.data.message);
@@ -78,9 +78,9 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
         };
         console.log("RESs", data);
         setBasket({ ...data?.basket });
-        toast.success(data.message);
+        // toast.success(data.message);
       } catch (error: any) {
-        console.log("RESs", error);
+        console.log("RESS", error);
         toast.error(error.response.data.message);
       }
     }

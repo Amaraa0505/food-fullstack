@@ -1,9 +1,10 @@
 "use client";
 
 import axios from "axios";
-import { PropsWithChildren, createContext, useState, useEffect } from "react";
+import { PropsWithChildren, createContext, useState, useEffect,  } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 interface IUser {
   name: string;
@@ -20,6 +21,7 @@ interface IUserContext {
 }
 
 export const UserContext = createContext<IUserContext>({
+  
   user: {
     name: "",
     email: "",
@@ -31,6 +33,8 @@ export const UserContext = createContext<IUserContext>({
 });
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
+  const router = useRouter();
+  
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<IUser>({
     name: "",
@@ -50,6 +54,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const login = async (email: string, password: string) => {
+   
     try {
       console.log("Login", email, password);
       const { data } = await axios.post("http://localhost:8080/auth/login", {
@@ -61,6 +66,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       localStorage.setItem("user", JSON.stringify(data.user));
       setUser(data.user);
       setToken(data.token);
+      router.push("/")
+      toast("amjilttai nevterlee")
     } catch (error) {
       toast.error("Error");
     }

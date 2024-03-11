@@ -7,6 +7,7 @@ import customer from "@/app/(auth)/customer/page";
 import CartDrawer from "../../components/CardDrawer";
 import order from "@/app/(auth)/order/page";
 
+
 import {
   Grid,
   Button,
@@ -22,6 +23,7 @@ import {
 } from "@mui/material";
 
 export const Header = () => {
+
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => {
     console.log("aaaa");
@@ -86,18 +88,12 @@ export const Header = () => {
           <img src="enroll.svg"></img>
           <Link
             color={"#212121"}
-            onClick={handleOpen}
+            href="/login"
             style={{ textDecoration: "none" }}
           >
             Нэвтрэх
           </Link>
-          {open && (
-            <LoginForm
-              open={open}
-              handleOpen={handleOpen}
-              handleClose={handleClose}
-            />
-          )}
+          
           <Link
             color={"#212121"}
             href={"/customer"}

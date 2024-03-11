@@ -61,7 +61,7 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
       }}
     >
       <Box sx={{}}>
-        <Typography sx={{ fontWeight: 800, fontSize: 20, ml: 10, mt: 10 }}>
+        <Typography sx={{ fontWeight:20, fontSize: 20, ml: 10, mt: 10 }}>
           Сагсны мэдээлэл
         </Typography>
         <Grid>
@@ -80,7 +80,7 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
           ))}
         </Grid>
         <Box>
-          <Typography sx={{ fontSize: 500, fontWeight: 800, ml: 10 }}>
+          <Typography sx={{ fontSize: 20, fontWeight: 800, ml: 10 }}>
             Миний захиалага
           </Typography>
           {/* <Grid>
