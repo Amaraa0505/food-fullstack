@@ -26,7 +26,8 @@ export const BasketCardOne = ({
   description,
   basketCount,
   image,
-  totalPrice
+  totalPrice,
+  
 }: {
   id: string;
   name: string;
@@ -35,6 +36,7 @@ export const BasketCardOne = ({
   basketCount: string;
   image: string;
   totalPrice:number
+ 
 }) => {
   const { updateFoodToBasket, deleteFoodFromBasket }: any = useContext(BasketContext);
 

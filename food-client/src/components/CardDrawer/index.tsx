@@ -32,21 +32,13 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
   const { basket, getFoodBasket }: any = useContext(BasketContext);
   const { user, setUser }: any = useContext(UserContext);
   console.log("basketb", basket);
-  const [quantity, setQuantity] = useState(1);
+ 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleIncreaseQuantity = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const handleDecreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
+// const total = basket?.foods?.map((food:any)=>food?.price * food.count).reduce((a:any, b:any)=>a + b, 0)
+const total = basket?.foods?.food?.price * basket?.foods?.food?.quantity
   return (
     <Drawer
       anchor="right"
@@ -75,6 +67,7 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
                 basketCount={e?.food?.count}
                 id={e?.food?._id}
                 totalPrice={e?.basket?.totalPrice}
+                
               />
             </Box>
           ))}
@@ -94,7 +87,7 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
             Нийт дүн:
           </Typography>
           <Stack sx={{ fontWeight: 800, fontSize: 20 }}>
-            {basket?.totalPrice}
+            {total}
           </Stack>
 
           <Link
