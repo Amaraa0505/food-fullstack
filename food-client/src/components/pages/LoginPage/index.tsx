@@ -8,6 +8,7 @@ import { UserContext } from "../../../contex/UserProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object({
   email: yup
@@ -27,21 +28,13 @@ const validationSchema = yup.object({
 
 const LoginPage = () => {
   const { login, user } = useContext(UserContext);
+  const router = useRouter();
 
   const formik = useFormik({
     onSubmit: async ({ email, password }) => {
       console.log("EMAIL", email);
       console.log("PASS", password);
-      // login(email, password);
-      try {
-        const { data } = await axios.post("http://localhost:8080/auth/login", {
-          userEmail: email,
-          userPassword: password,
-        });
-        console.log("nevterlee",data);
-      } catch (error) {
-        console.log(error);
-      }
+      login(email, password);
     },
     initialValues: { email: "", password: "" },
     validateOnChange: false,
@@ -49,7 +42,6 @@ const LoginPage = () => {
     validationSchema,
   });
 
-  const router = useRouter();
   return (
     <Stack
       sx={{
@@ -95,8 +87,7 @@ const LoginPage = () => {
       </Stack>
 
       <Stack>
-        <Button label="Нэвтрэх" onClick={formik.handleSubmit} 
-        />
+        <Button label="Нэвтрэх" onClick={formik.handleSubmit} />
 
         <Typography
           sx={{

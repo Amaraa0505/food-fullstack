@@ -1,6 +1,14 @@
 // CardDrawer.js
 import React, { useContext } from "react";
-import { Box, Drawer, Typography, Grid, Button, Stack, Link } from "@mui/material";
+import {
+  Box,
+  Drawer,
+  Typography,
+  Grid,
+  Button,
+  Stack,
+  Link,
+} from "@mui/material";
 import { useState, useEffect } from "react";
 import { FoodContext } from "@/contex/FoodProvider";
 import { BasketContext } from "@/contex/BasketProvider";
@@ -21,14 +29,13 @@ interface Props {
 }
 
 const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
-  
   const { basket, getFoodBasket }: any = useContext(BasketContext);
   const { user, setUser }: any = useContext(UserContext);
   console.log("basketb", basket);
   const [quantity, setQuantity] = useState(1);
-  const [open, setOpen]=React.useState(false)
-  const handleOpen=()=>setOpen(true)
-  const handleClose=()=>setOpen(false)
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleIncreaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -73,14 +80,14 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
           ))}
         </Grid>
         <Box>
-          <Typography sx={{ fodnSize: 500, fontWeight: 800, ml: 10 }}>
+          <Typography sx={{ fontSize: 500, fontWeight: 800, ml: 10 }}>
             Миний захиалага
           </Typography>
-          <Grid>
+          {/* <Grid>
             {user.orders.map((order: any) => (
               <Grid>{order?.name}</Grid>
             ))}
-          </Grid>
+          </Grid> */}
         </Box>
         <Box sx={{ display: "flex", gap: 15, alignItems: "center", ml: 10 }}>
           <Typography sx={{ fontWeight: 400, fontSize: 18 }}>
@@ -106,7 +113,6 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
           >
             {" "}
             Захиалах
-            
           </Link>
         </Box>
       </Box>
@@ -115,29 +121,3 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
 };
 
 export default CartDrawer;
-
-
-// const [order, setOrder]=useState([])
-
-  // const createOrder=async()=>{
-  //   try {
-  //     const orderData=new FormData()
-  //     orderData.set("food",food)
-  //     orderData.set("qty", quantity)
-  //     orderData.set("totalPrice.set", totalPrice)
-  //     orderData.set("khoroo", khoroo)
-  //     orderData.set("duureg", duureg)
-  //     orderData.set("buildingNo", buildingNo)
-
-  //     const token = localStorage.getItem("token");
-
-  //       await axios.post("http://localhost:8080/order", orderData, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-
-  //   } catch (error:any) {
-  //     alert("Add Error - " + error.message);
-  //   }
-  // }

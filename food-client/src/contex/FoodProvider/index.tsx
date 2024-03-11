@@ -35,6 +35,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   // }
 
   const [foods, setFoods] = useState([]);
+
   const getFood = async () => {
     try {
       const {

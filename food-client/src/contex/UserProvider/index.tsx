@@ -10,11 +10,12 @@ interface IUser {
   email: string;
   address?: string;
   avatarUrl?: string;
-  orders: []
+  orders: [];
 }
 
 interface IUserContext {
   user: IUser;
+  token: string | null;
   login: (name: string, password: string) => void;
 }
 
@@ -25,20 +26,28 @@ export const UserContext = createContext<IUserContext>({
     address: "",
     orders: [],
   },
+  token: "",
   login: function () {},
 });
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<IUser>({
-    name: "Test User",
+    name: "",
     email: "",
     address: "",
     avatarUrl: "",
-    orders:[]
+    orders: [],
   });
 
-  console.log("user", user)
+  console.log("user", user);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
 
   const login = async (email: string, password: string) => {
     try {
@@ -51,36 +60,14 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       setUser(data.user);
-      setToken(data.user);
+      setToken(data.token);
     } catch (error) {
       toast.error("Error");
     }
   };
 
-
-  
-  // const getUser = async () => {
-  //   try {
-  //     const {
-  //       data: { user },
-  //     } = (await axios.get("http://localhost:8080/auth/login")) as {
-  //       data: { user: [] };
-  //     };
-
-  //     // setUser(user);
-  //   } catch (error: any) {
-  //     toast.error("Error" + error.message);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
-
-
-
   return (
-    <UserContext.Provider value={{ user, login }}>
+    <UserContext.Provider value={{ user, login, token }}>
       {children}
     </UserContext.Provider>
   );

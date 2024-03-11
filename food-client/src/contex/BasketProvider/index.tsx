@@ -3,13 +3,13 @@
 import axios from "axios";
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { UserContext } from "../UserProvider";
+import { useContext } from "react";
 
 export const BasketContext = createContext({} as object);
 
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDQ3ZmVjZGE2MGQxYjM0YmViMmExZiIsImlhdCI6MTcwOTcxNjc4MiwiZXhwIjoxNzA5ODAzMTgyfQ.VvHcb9lppIgchSXZtlBwV5H9m46QPau1h1xYIaWHKOQ";
-
 const createReq = async (url: string, foodItem: any) => {
+  const { token }: any = useContext(UserContext);
   const { data } = (await axios.post(url, foodItem, {
     headers: { Authorization: `Bearer ${token}` },
   })) as {
@@ -19,6 +19,7 @@ const createReq = async (url: string, foodItem: any) => {
 };
 
 export const BasketProvider = ({ children }: PropsWithChildren) => {
+  const { token } = useContext(UserContext);
   const [basket, setBasket] = useState<{} | null>(null);
   const [refetch, setRefetch] = useState<boolean>(false);
 
@@ -61,30 +62,33 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
         }
       );
       console.log("RES", data?.basket);
-      // setBasket({ ...data?.basket });
+      setBasket({ ...data?.basket });
     } catch (error: any) {
       toast.error(error.response.data.message);
     }
   };
 
   const getFoodBasket = async () => {
-    try {
-      const { data } = (await axios.get("http://localhost:8080/backet", {
-        headers: { Authorization: `Bearer ${token}` },
-      })) as {
-        data: any;
-      };
-      console.log("RESs", data);
-      setBasket({ ...data?.basket });
-      // toast.success(data.message);
-    } catch (error: any) {
-      toast.error(error.response.data.message);
+    if (token) {
+      try {
+        const { data } = (await axios.get("http://localhost:8080/backet", {
+          headers: { Authorization: `Bearer ${token}` },
+        })) as {
+          data: any;
+        };
+        console.log("RESs", data);
+        setBasket({ ...data?.basket });
+        toast.success(data.message);
+      } catch (error: any) {
+        console.log("RESs", error);
+        toast.error(error.response.data.message);
+      }
     }
   };
 
   useEffect(() => {
     getFoodBasket();
-  }, []);
+  }, [token]);
 
   return (
     <BasketContext.Provider
