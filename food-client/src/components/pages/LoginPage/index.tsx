@@ -7,8 +7,6 @@ import { useContext } from "react";
 import { UserContext } from "../../../contex/UserProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
-import { toast } from "react-toastify";
 
 const validationSchema = yup.object({
   email: yup

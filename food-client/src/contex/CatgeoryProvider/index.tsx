@@ -26,7 +26,7 @@ export const CategoryContext = createContext<ICategoryContext>(
 export const CategoryProvider = ({ children }: PropsWithChildren) => {
   const [categories, setCategories] = useState([]);
   const [chosenCategory, setChosenCategory] = useState(
-    "65d9ad4620e0a4083c924194"
+    
   );
 
   const getCategory = async () => {

@@ -32,13 +32,13 @@ const CartDrawer: React.FC<Props> = ({ isCartOpen, handleCartClose }: any) => {
   const { basket, getFoodBasket }: any = useContext(BasketContext);
   const { user, setUser }: any = useContext(UserContext);
   console.log("basketb", basket);
- 
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-// const total = basket?.foods?.map((food:any)=>food?.price * food.count).reduce((a:any, b:any)=>a + b, 0)
-const total = basket?.foods?.food?.price * basket?.foods?.food?.quantity
+  // const total = basket?.foods?.map((food:any)=>food?.price * food.count).reduce((a:any, b:any)=>a + b, 0)
+  const total = basket?.foods?.food?.price * basket?.foods?.food?.count;
   return (
     <Drawer
       anchor="right"
@@ -53,7 +53,7 @@ const total = basket?.foods?.food?.price * basket?.foods?.food?.quantity
       }}
     >
       <Box sx={{}}>
-        <Typography sx={{ fontWeight:20, fontSize: 20, ml: 10, mt: 10 }}>
+        <Typography sx={{ fontWeight: 20, fontSize: 20, ml: 10, mt: 10 }}>
           Сагсны мэдээлэл
         </Typography>
         <Grid>
@@ -67,7 +67,6 @@ const total = basket?.foods?.food?.price * basket?.foods?.food?.quantity
                 basketCount={e?.food?.count}
                 id={e?.food?._id}
                 totalPrice={e?.basket?.totalPrice}
-                
               />
             </Box>
           ))}
@@ -86,9 +85,7 @@ const total = basket?.foods?.food?.price * basket?.foods?.food?.quantity
           <Typography sx={{ fontWeight: 400, fontSize: 18 }}>
             Нийт дүн:
           </Typography>
-          <Stack sx={{ fontWeight: 800, fontSize: 20 }}>
-            {total}
-          </Stack>
+          <Stack sx={{ fontWeight: 800, fontSize: 20 }}>{total}</Stack>
 
           <Link
             sx={{

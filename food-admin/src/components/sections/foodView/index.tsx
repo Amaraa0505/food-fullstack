@@ -23,7 +23,6 @@ import Iconify from "@/components/iconify";
 
 // ----------------------------------------------------------------------
 
-
 export default function FoodView() {
   const [openFilter, setOpenFilter] = useState(false);
   const [open, setOpen] = useState(false);
@@ -74,6 +73,7 @@ export default function FoodView() {
       formData.set("price", newFood.price);
       formData.set("discountPrice", newFood.discount);
       formData.set("category", newFood.category);
+
       console.log("neww", newFood);
 
       const token = localStorage.getItem("token");
