@@ -35,6 +35,10 @@ app.use("/backet", backetRoute);
 app.use("/order", orderRoute)
 // app.use("/transaction", transactionRoute)
 
+app.get("/", (req: Request, res:Response )=>{
+    res.send("<h1>food delivery</h1>")
+})
+
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(color.rainbow("Server is running " + PORT)));
